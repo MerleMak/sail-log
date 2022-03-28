@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-export default createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
@@ -12,6 +12,7 @@ export default createGlobalStyle`
     font-family: Raleway;
     background-color: #82C9D9;
     color: #013440;
+    font-weight:400;
 
   }
 
