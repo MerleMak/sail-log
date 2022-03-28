@@ -6,7 +6,10 @@ export default function LogForm({ onClick }) {
   return (
     <>
       <Form autoComplete="off" aria-label="Create-a-new-log-entry">
-        <LogInput labelText="Notes:"></LogInput>
+        <LogInput
+          labelText="Notes:"
+          inputHintText="..type information like wind direction, wave size.."
+        ></LogInput>
         <Button children="save" saveButton="true" onClick={onClick} />
       </Form>
     </>
@@ -14,7 +17,8 @@ export default function LogForm({ onClick }) {
 }
 
 const Form = styled.form`
-  border: 1px solid black;
+  padding: 20px;
+  border: none;
   overflow-y: auto;
   overflow-x: hidden;
 `;

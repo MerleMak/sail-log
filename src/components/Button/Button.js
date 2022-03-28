@@ -9,8 +9,13 @@ export default function Button({ children, onClick, saveButton }) {
 }
 
 const BasicButton = styled.button`
-  background-color: ${(props) => (props.saveButton ? "#666" : "#ddd")};
-  color: ${(props) => (props.saveButton ? "white" : "inherit")};
+  background-color: ${(props) => (props.saveButton ? "#F2B705" : "#ddd")};
+  color: ${(props) => (props.saveButton ? "#013440" : "inherit")};
+  padding: 15px;
+  position: fixed;
+  bottom: 50px;
+  right: 43vw;
+  border-radius: 20px;
   border: none;
-  padding: 4px 12px;
+  font-size: 1.5rem;
 `;
