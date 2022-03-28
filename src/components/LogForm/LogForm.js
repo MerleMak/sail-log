@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import LogInput from "../LogInput/LogInput";
 
 export default function LogForm() {
   return (
     <>
-      <Form autoComplete="off" aria-label="Create-a-new-log-entry"></Form>
+      <Form autoComplete="off" aria-label="Create-a-new-log-entry">
+        <LogInput labelText="Notes:"></LogInput>
+      </Form>
     </>
   );
 }
