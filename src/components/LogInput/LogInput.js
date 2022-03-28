@@ -11,6 +11,7 @@ export default function LogInput({ labelText, inputHintText }) {
         aria-describedby="instruction"
         type="text"
         rows={6}
+        required
       ></textarea>
     </Inputwrapper>
   );
