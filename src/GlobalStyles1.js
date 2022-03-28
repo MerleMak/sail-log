@@ -12,6 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: Raleway;
     background-color: #82C9D9;
     color: #013440;
+    font-weight:400;
 
   }
 
