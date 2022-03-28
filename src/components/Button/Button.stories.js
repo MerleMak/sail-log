@@ -1,7 +1,21 @@
-import React from 'react';
+import Button from "./Button";
 
-import { Button } from './Button';
+export default {
+  title: "components/Button",
+  component: Button,
+  argTypes: {
+    onClick: "onClick",
+  },
+};
 
+const Template = (args) => <Button {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+  children: "save",
+};
+
+/*
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
   title: 'Example/Button',
@@ -37,4 +51,4 @@ export const Small = Template.bind({});
 Small.args = {
   size: 'small',
   label: 'Button',
-};
+}; */
