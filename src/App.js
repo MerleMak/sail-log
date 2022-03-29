@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import LogForm from "./components/LogForm/LogForm";
+import { useState } from "react";
 
 export default function App() {
+  const [logEntries, setLogEntries] = useState([]);
+  console.log(logEntries);
+
   return (
     <>
       <Header>sail log</Header>
@@ -9,7 +13,10 @@ export default function App() {
     </>
   );
 
-  function handleLogEntry() {}
+  function handleLogEntry(text) {
+    const newLogEntry = { text };
+    setLogEntries([...logEntries, newLogEntry]);
+  }
 }
 
 const Header = styled.h1`

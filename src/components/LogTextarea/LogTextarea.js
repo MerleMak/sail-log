@@ -4,7 +4,6 @@ export default function LogTextarea({
   labelText,
   textareaHint,
   name,
-  value,
   required,
 }) {
   return (
@@ -17,7 +16,6 @@ export default function LogTextarea({
         rows={6}
         id={name}
         name={name}
-        value={value}
         required={required}
       ></textarea>
     </TextareaWrapper>

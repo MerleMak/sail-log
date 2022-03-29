@@ -11,6 +11,7 @@ export default function LogForm({ onSubmit }) {
     onSubmit(textareaElement.value);
     form.reset();
   }
+
   return (
     <Form
       autoComplete="off"
@@ -21,10 +22,11 @@ export default function LogForm({ onSubmit }) {
         labelText="Notes:"
         textareaHint="..type information like wind direction, wave size.."
         name="notes"
-        value
         required
       ></LogTextarea>
-      <Button children="save" saveButton="true" onClick={onSubmit} />
+      <Button type="submit" saveButton>
+        Save
+      </Button>
     </Form>
   );
 }
