@@ -1,12 +1,17 @@
-import styled from "styled-components";
-import LogForm from "./components/LogForm/LogForm";
-import { useState } from "react";
+import styled from 'styled-components';
+import LogForm from './components/LogForm/LogForm';
+import LogEntryList from './components/LogEntryList/LogEntryList';
+import { useState } from 'react';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
   console.log(logEntries);
 
-  return (
+  return logEntries ? (
+    <>
+      <LogEntryList />
+    </>
+  ) : (
     <>
       <Header>sail log</Header>
       <LogForm onSubmit={handleLogEntry} />

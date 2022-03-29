@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function LogInput({ labelText, inputHint, name, id }) {
+export default function LogInput({ labelText, inputHint, name, required }) {
   return (
     <InputWrapper>
       <label htmlFor="logInput">{labelText}</label>
@@ -8,8 +8,9 @@ export default function LogInput({ labelText, inputHint, name, id }) {
       <input
         type="text"
         aria-describedby="instruction"
+        id={name}
         name={name}
-        id={id}
+        required={required}
       ></input>
     </InputWrapper>
   );

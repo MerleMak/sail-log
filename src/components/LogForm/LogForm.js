@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 // import LogInput from "../LogInput/LogInput";
-import LogTextarea from "../LogTextarea/LogTextarea";
-import Button from "../Button/Button";
+import LogTextarea from '../LogTextarea/LogTextarea';
+import Button from '../Button/Button';
 
 export default function LogForm({ onSubmit }) {
   function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
-    const textareaElement = form.elements["notes"];
+    const textareaElement = form.elements['notes'];
     onSubmit(textareaElement.value);
     form.reset();
   }
@@ -25,7 +25,7 @@ export default function LogForm({ onSubmit }) {
         required
       ></LogTextarea>
       <Button type="submit" saveButton>
-        Save
+        save
       </Button>
     </Form>
   );
