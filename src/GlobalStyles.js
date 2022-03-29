@@ -10,8 +10,8 @@ export default createGlobalStyle`
     padding: 0;
     font-size: 112.5%;
     font-family: Raleway;
-    background-color: #82C9D9;
-    color: #013440;
+    background-color: #37748C;
+    color: #D5E5F2;
     font-weight:400;
 
   }

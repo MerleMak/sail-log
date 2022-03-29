@@ -1,21 +1,28 @@
 import styled from "styled-components";
 
-export default function LogInput({ labelText, inputHint, name, id }) {
+export default function LogTextarea({
+  labelText,
+  textareaHint,
+  name,
+  required,
+}) {
   return (
-    <InputWrapper>
-      <label htmlFor="logInput">{labelText}</label>
-      <InputHint id="instruction">{inputHint}</InputHint>
-      <input
+    <TextareaWrapper>
+      <label htmlFor={name}>{labelText}</label>
+      <TextareaHint id="instruction">{textareaHint}</TextareaHint>
+      <textarea
         type="text"
         aria-describedby="instruction"
+        rows={6}
+        id={name}
         name={name}
-        id={id}
-      ></input>
-    </InputWrapper>
+        required={required}
+      ></textarea>
+    </TextareaWrapper>
   );
 }
 
-const InputWrapper = styled.section`
+const TextareaWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -38,7 +45,7 @@ const InputWrapper = styled.section`
   }
 `;
 
-const InputHint = styled.p`
+const TextareaHint = styled.p`
   font-size: 1rem;
   margin: 0;
 `;

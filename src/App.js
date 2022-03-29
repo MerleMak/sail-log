@@ -1,20 +1,27 @@
 import styled from "styled-components";
 import LogForm from "./components/LogForm/LogForm";
+import { useState } from "react";
 
 export default function App() {
+  const [logEntries, setLogEntries] = useState([]);
+  console.log(logEntries);
+
   return (
     <>
       <Header>sail log</Header>
-      <LogForm onClick={handleClick} />
+      <LogForm onSubmit={handleLogEntry} />
     </>
   );
 
-  function handleClick() {}
+  function handleLogEntry(text) {
+    const newLogEntry = { text };
+    setLogEntries([...logEntries, newLogEntry]);
+  }
 }
 
 const Header = styled.h1`
   text-align: center;
   font-family: Limelight;
   font-size: 40px;
-  color: #013440;
+  color: #d5e5f2;
 `;

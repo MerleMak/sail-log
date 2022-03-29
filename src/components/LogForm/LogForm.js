@@ -1,23 +1,37 @@
 import styled from "styled-components";
-import LogInput from "../LogInput/LogInput";
+// import LogInput from "../LogInput/LogInput";
+import LogTextarea from "../LogTextarea/LogTextarea";
 import Button from "../Button/Button";
 
-export default function LogForm({ onClick }) {
+export default function LogForm({ onSubmit }) {
+  function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const textareaElement = form.elements["notes"];
+    onSubmit(textareaElement.value);
+    form.reset();
+  }
+
   return (
-    <>
-      <Form autoComplete="off" aria-label="Create-a-new-log-entry">
-        <LogInput
-          labelText="Notes:"
-          inputHintText="..type information like wind direction, wave size.."
-        ></LogInput>
-        <Button children="save" saveButton="true" onClick={onClick} />
-      </Form>
-    </>
+    <Form
+      autoComplete="off"
+      aria-label="Create-a-new-log-entry"
+      onSubmit={handleSubmit}
+    >
+      <LogTextarea
+        labelText="Notes:"
+        textareaHint="..type information like wind direction, wave size.."
+        name="notes"
+        required
+      ></LogTextarea>
+      <Button type="submit" saveButton>
+        Save
+      </Button>
+    </Form>
   );
 }
 
 const Form = styled.form`
-  padding: 20px;
   border: none;
   overflow-y: auto;
   overflow-x: hidden;
