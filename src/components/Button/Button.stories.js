@@ -1,18 +1,30 @@
-import Button from "./Button";
+import Button from './Button';
 
 export default {
-  title: "components/Button",
+  title: 'components/Button',
   component: Button,
   argTypes: {
-    onClick: "onClick",
+    onClick: 'onClick',
   },
 };
 
-const Template = (args) => <Button {...args} />;
+const Template = args => <Button {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  children: "save",
+  children: 'Click me',
+};
+
+export const Save = Template.bind({});
+Save.args = {
+  children: 'save',
+  variant: 'save',
+};
+
+export const Navigate = Template.bind({});
+Navigate.args = {
+  children: 'go back',
+  variant: 'navigate',
 };
 
 /*

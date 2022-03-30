@@ -1,22 +1,25 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export default function LogTextarea({
+  type,
   labelText,
   textareaHint,
   name,
   required,
+  onChange,
 }) {
   return (
     <TextareaWrapper>
       <label htmlFor={name}>{labelText}</label>
       <TextareaHint id="instruction">{textareaHint}</TextareaHint>
       <textarea
-        type="text"
+        type={type}
         aria-describedby="instruction"
         rows={6}
         id={name}
         name={name}
         required={required}
+        onChange={onChange}
       ></textarea>
     </TextareaWrapper>
   );
