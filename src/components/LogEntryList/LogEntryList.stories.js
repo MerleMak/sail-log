@@ -9,4 +9,13 @@ export default {
 const Template = args => <LogEntryList {...args} />;
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  logEntries: [
+    {
+      notes: '30.03.2022: wind direction SSW',
+    },
+    {
+      notes: '29.03.2022: wind direction W',
+    },
+  ],
+};

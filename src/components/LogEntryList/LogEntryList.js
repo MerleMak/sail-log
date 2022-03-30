@@ -2,7 +2,7 @@ import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 
 export default function LogEntryList({ logEntries }) {
-  return (
+  return <li></li> ? (
     <EntryList role="list" aria-label="Your-log-entries">
       {logEntries.map((logEntryData, index) => {
         return (
@@ -12,6 +12,8 @@ export default function LogEntryList({ logEntries }) {
         );
       })}
     </EntryList>
+  ) : (
+    <p>No entries yet.. time to go sailing!</p>
   );
 }
 
