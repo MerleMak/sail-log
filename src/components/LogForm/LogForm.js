@@ -23,25 +23,31 @@ export default function LogForm({ onSubmit }) {
   }
 
   return (
-    <Form
-      autoComplete="off"
-      aria-label="Create-a-new-log-entry"
-      onSubmit={handleSubmit}
-    >
-      <LogTextarea
-        type="text"
-        labelText="Notes:"
-        textareaHint="..type information like wind direction, wave size.."
-        name="notes"
-        required
-        onChange={handleOnChange}
-      ></LogTextarea>
-      <Button type="submit" saveButton>
-        save
-      </Button>
-    </Form>
+    <FormGrid>
+      <Form
+        autoComplete="off"
+        aria-label="Create-a-new-log-entry"
+        onSubmit={handleSubmit}
+      >
+        <LogTextarea
+          type="text"
+          labelText="Notes:"
+          textareaHint="..type information like wind direction, wave size.."
+          name="notes"
+          required
+          onChange={handleOnChange}
+        ></LogTextarea>
+        <Button type="submit" variant="save">
+          save
+        </Button>
+      </Form>
+    </FormGrid>
   );
 }
+
+const FormGrid = styled.div`
+  display: grid; ;
+`;
 
 const Form = styled.form`
   border: none;
