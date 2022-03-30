@@ -1,16 +1,24 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export default function LogInput({ labelText, inputHint, name, required }) {
+export default function LogInput({
+  type,
+  labelText,
+  inputHint,
+  name,
+  required,
+  onChange,
+}) {
   return (
     <InputWrapper>
-      <label htmlFor="logInput">{labelText}</label>
+      <label htmlFor={name}>{labelText}</label>
       <InputHint id="instruction">{inputHint}</InputHint>
       <input
-        type="text"
+        type={type}
         aria-describedby="instruction"
         id={name}
         name={name}
         required={required}
+        onChange={onChange}
       ></input>
     </InputWrapper>
   );
