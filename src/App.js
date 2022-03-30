@@ -2,16 +2,20 @@ import styled from 'styled-components';
 import LogForm from './components/LogForm/LogForm';
 import LogEntryList from './components/LogEntryList/LogEntryList';
 import { useState } from 'react';
+import Button from './components/Button/Button';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
   console.log(logEntries);
 
-  return (
+  return logEntries.length === 0 ? (
     <>
-      <LogEntryList logEntries={logEntries} />
       <Header>sail log</Header>
       <LogForm onSubmit={handleLogEntry} />
+    </>
+  ) : (
+    <>
+      <LogEntryList logEntries={logEntries} />
     </>
   );
 
