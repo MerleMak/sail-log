@@ -1,21 +1,36 @@
-import styled from "styled-components";
+import styled, { css } from 'styled-components';
 
-export default function Button({ children, onClick, saveButton }) {
+export default function Button({ children, onClick, variant }) {
   return (
-    <BasicButton saveButton={saveButton} onClick={onClick}>
+    <StyledButton variant={variant} onClick={onClick}>
       {children}
-    </BasicButton>
+    </StyledButton>
   );
 }
 
-const BasicButton = styled.button`
-  background-color: ${(props) => (props.saveButton ? "#F2B705" : "#ddd")};
-  color: ${(props) => (props.saveButton ? "#013440" : "inherit")};
+const StyledButton = styled.button`
   padding: 15px;
-  position: fixed;
-  bottom: 50px;
-  right: 43vw;
   border-radius: 20px;
   border: none;
   font-size: 1.5rem;
+
+  ${props =>
+    props.variant === 'save' &&
+    css`
+      background-color: #f2b705;
+      color: #012e40;
+      position: fixed;
+      bottom: 50px;
+      right: 41vw;
+    `}
+
+  ${props =>
+    props.variant === 'navigate' &&
+    css`
+      background-color: #f2b705;
+      color: #012e40;
+      position: fixed;
+      bottom: 50px;
+      right: 13vw;
+    `}
 `;
