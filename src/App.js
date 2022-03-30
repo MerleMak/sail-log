@@ -7,20 +7,16 @@ export default function App() {
   const [logEntries, setLogEntries] = useState([]);
   console.log(logEntries);
 
-  return logEntries ? (
+  return (
     <>
-      <LogEntryList />
-    </>
-  ) : (
-    <>
+      <LogEntryList logEntries={logEntries} />
       <Header>sail log</Header>
       <LogForm onSubmit={handleLogEntry} />
     </>
   );
 
-  function handleLogEntry(text) {
-    const newLogEntry = { text };
-    setLogEntries([...logEntries, newLogEntry]);
+  function handleLogEntry(formData) {
+    setLogEntries([...logEntries, formData]);
   }
 }
 

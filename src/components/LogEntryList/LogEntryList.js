@@ -1,13 +1,13 @@
-import LogEntry from '../';
+import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 
 export default function LogEntryList({ logEntries }) {
   return (
-    <EntryList role="list" aria-label="Your Log Entries">
-      {logEntries.map(logEntry => {
+    <EntryList role="list" aria-label="Your-log-entries">
+      {logEntries.map((logEntryData, index) => {
         return (
-          <li>
-            <LogEntry logEntry={logEntry} key={logEntry.id} />
+          <li key={index}>
+            <LogEntry logEntryData={logEntryData} />
           </li>
         );
       })}
