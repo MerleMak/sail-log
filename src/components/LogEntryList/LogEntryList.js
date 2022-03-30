@@ -1,6 +1,6 @@
 import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
-
+// check if there are logEntries?
 export default function LogEntryList({ logEntries }) {
   return <li></li> ? (
     <EntryList role="list" aria-label="Your-log-entries">
