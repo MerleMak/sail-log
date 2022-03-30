@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import LogEntry from './LogEntry';
 
-/*describe('logEntry', () => {
-  it('renders a card with notes', ({ logEntryData }) => {
-    render(<logEntry logEntryData={logEntryData.notes} />);
+describe('LogEntry', () => {
+  it('shows the input of notes', () => {
+    render(<LogEntry logEntryData="hello" />);
 
-    const notes = screen.getByText(/Hello/i);
-    expect(notes).toBeInTheDocument();
+    const note = screen.getByText(/"hello"/i);
+    expect(note).toBeInTheDocument();
   });
-});*/
+});

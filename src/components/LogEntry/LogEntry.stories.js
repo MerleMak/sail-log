@@ -10,5 +10,7 @@ const Template = args => <LogEntry {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  notes: '30.03.2022: wind direction SSW',
+  logEntryData: {
+    notes: 'This is a test',
+  },
 };
