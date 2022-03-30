@@ -16,12 +16,17 @@ export default function App() {
   ) : (
     <>
       <LogEntryList logEntries={logEntries} />
+      <Button onClick={handleClick} variant="navigate">
+        create a new log entry
+      </Button>
     </>
   );
 
   function handleLogEntry(formData) {
     setLogEntries([...logEntries, formData]);
   }
+
+  function handleClick() {}
 }
 
 const Header = styled.h1`
