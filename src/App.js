@@ -29,18 +29,9 @@ export default function App() {
           }
         />
       </Routes>
-      <Navigation>
-        <NavLink to="/">Homepage</NavLink>
-        <NavLink to="/create">create a new log entry</NavLink>
-        <NavLink to="/logbook">logbook</NavLink>
-      </Navigation>
     </>
   );
   function handleLogEntry(formData) {
     setLogEntries([...logEntries, formData]);
   }
 }
-const Navigation = styled.nav`
-  display: flex;
-  flex-direction: column;
-`;
