@@ -20,7 +20,7 @@ const StyledButton = styled.button`
       background-color: #f2b705;
       color: #012e40;
       position: fixed;
-      bottom: 50px;
+      bottom: 100px;
       right: 41vw;
     `}
 
@@ -29,8 +29,5 @@ const StyledButton = styled.button`
     css`
       background-color: #f2b705;
       color: #012e40;
-      position: fixed;
-      bottom: 50px;
-      right: 13vw;
     `}
 `;

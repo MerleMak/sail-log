@@ -1,37 +1,38 @@
-import styled from 'styled-components';
-import LogForm from './components/LogForm/LogForm';
-import LogEntryList from './components/LogEntryList/LogEntryList';
 import { useState } from 'react';
-import Button from './components/Button/Button';
+import { NavLink, Routes, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import HomePage from './routes/HomePage';
+import FormPage from './routes/FormPage';
+import LogbookPage from './routes/LogbookPage';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
-  console.log(logEntries);
 
-  return logEntries.length === 0 ? (
+  return (
     <>
-      <Header>sail log</Header>
-      <LogForm onSubmit={handleLogEntry} />
-    </>
-  ) : (
-    <>
-      <LogEntryList logEntries={logEntries} />
-      <Button onClick={handleClick} variant="navigate">
-        create a new log entry
-      </Button>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/create"
+          element={<FormPage onSubmit={handleLogEntry} />}
+        />
+        <Route
+          path="/logbook"
+          element={<LogbookPage logEntries={logEntries} />}
+        />
+        <Route
+          path="/*"
+          element={
+            <main style={{ padding: '1rem' }}>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        />
+      </Routes>
     </>
   );
 
   function handleLogEntry(formData) {
     setLogEntries([...logEntries, formData]);
   }
-
-  function handleClick() {}
 }
-
-const Header = styled.h1`
-  text-align: center;
-  font-family: Limelight;
-  font-size: 40px;
-  color: #d5e5f2;
-`;
