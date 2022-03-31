@@ -31,6 +31,7 @@ export default function App() {
       </Routes>
     </>
   );
+
   function handleLogEntry(formData) {
     setLogEntries([...logEntries, formData]);
   }

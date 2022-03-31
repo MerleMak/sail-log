@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
+import { Header } from '../styled-components/Header';
 import { IconContext } from 'react-icons';
 import { GiShoonerSailboat } from 'react-icons/gi';
 
@@ -26,12 +27,6 @@ export default function HomePage() {
 const HomePageWrapper = styled.div`
   display: grid;
   justify-items: center;
-`;
-const Header = styled.h1`
-  text-align: center;
-  font-family: Limelight;
-  font-size: 40px;
-  color: #d5e5f2;
 `;
 
 const NavWrapper = styled.div`
