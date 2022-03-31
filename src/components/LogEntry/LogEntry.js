@@ -3,7 +3,12 @@ import styled from 'styled-components';
 export default function LogEntry({ logEntryData }) {
   return (
     <Card>
-      <div>{logEntryData.notes}</div>
+      <span>{logEntryData.boatName}</span>
+      <span>{logEntryData.crewNames}</span>
+      <span>{logEntryData.windSpeed}</span>
+      <span>{logEntryData.windDirection}</span>
+      <span>{logEntryData.waveHeight}</span>
+      <span>{logEntryData.notes}</span>
     </Card>
   );
 }
