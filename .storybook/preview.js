@@ -17,4 +17,9 @@ export const decorators = [
       <Story />
     </>
   ),
+  (Story) => (
+    <MemoryRouter>
+      <Story />
+    </MemoryRouter>
+  ),
 ];
