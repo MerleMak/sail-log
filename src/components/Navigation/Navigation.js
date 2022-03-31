@@ -1,15 +1,14 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { IconContext } from 'react-icons';
-import { GrHomeRounded, GrCatalog, GrAnchor, GrAdd } from 'react-icons/gr';
-import { IoCreateOutline } from 'react-icons/io5';
+import { GrCatalog, GrAnchor, GrAdd } from 'react-icons/gr';
 import { FaGripLinesVertical } from 'react-icons/fa';
 
 export default function Navigation() {
   return (
     <Nav>
       <Link to="/">
-        <IconContext.Provider value={{ size: '1.5rem' }}>
+        <IconContext.Provider value={{ size: '1.5rem', color: 'white' }}>
           <GrAnchor />
         </IconContext.Provider>
       </Link>
@@ -25,7 +24,7 @@ export default function Navigation() {
         <VerticalLine />
       </IconContext.Provider>
       <Link to="/create">
-        <IconContext.Provider value={{ size: '1.5rem', color: '#d5e5f2' }}>
+        <IconContext.Provider value={{ size: '1.5rem' }}>
           <GrAdd />
         </IconContext.Provider>
       </Link>
@@ -40,7 +39,6 @@ const Nav = styled.nav`
 `;
 
 const Link = styled(NavLink)`
-  color: #d5e5f2;
   width: 15px;
 `;
 
