@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { NavLink, Routes, Route } from 'react-router-dom';
-import styled from 'styled-components';
+import { Routes, Route } from 'react-router-dom';
 import HomePage from './routes/HomePage';
 import FormPage from './routes/FormPage';
 import LogbookPage from './routes/LogbookPage';
