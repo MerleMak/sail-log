@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Header } from '../styled-components/Header';
 // check if there are logEntries?
 export default function LogEntryList({ logEntries }) {
-  return <li></li> ? (
+  return (
     <Wrapper>
-      <Header>your log entries</Header>
-      <EntryList role="list" aria-label="Your-log-entries">
+      <Header id="header">your log entries</Header>
+      <EntryList role="list" aria-labelledby="header">
         {logEntries.map((logEntryData, index) => {
           return (
             <li key={index}>
@@ -16,8 +16,6 @@ export default function LogEntryList({ logEntries }) {
         })}
       </EntryList>
     </Wrapper>
-  ) : (
-    <p>No entries yet.. time to go sailing!</p>
   );
 }
 const Wrapper = styled.div`
