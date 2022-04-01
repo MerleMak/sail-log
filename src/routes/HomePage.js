@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/Button/Button';
-import { Header } from '../styled-components/Header';
+import { Header } from '../components/styled-components/Header';
 import { IconContext } from 'react-icons';
 import { GiShoonerSailboat } from 'react-icons/gi';
 

@@ -19,9 +19,6 @@ const StyledButton = styled.button`
     css`
       background-color: #f2b705;
       color: #012e40;
-      position: fixed;
-      bottom: 100px;
-      right: 41vw;
     `}
 
   ${props =>

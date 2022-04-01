@@ -27,7 +27,6 @@ export default function LogInput({
 const InputWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 5px;
   color: #d5e5f2;
   padding: 15px;
   margin: 10px;
@@ -37,7 +36,7 @@ const InputWrapper = styled.section`
     margin-bottom: 10px;
     font-size: 1.5rem;
   }
-  textarea {
+  input {
     border-radius: 15px;
     margin: -7px;
     margin-top: 5px;
@@ -48,6 +47,6 @@ const InputWrapper = styled.section`
 `;
 
 const InputHint = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0;
 `;

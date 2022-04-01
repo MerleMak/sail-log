@@ -49,6 +49,6 @@ const TextareaWrapper = styled.section`
 `;
 
 const TextareaHint = styled.p`
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0;
 `;
