@@ -3,7 +3,6 @@ import { GrTrash } from 'react-icons/gr';
 import Button from '../Button/Button';
 
 export default function LogEntry({ logEntryData, onDelete, _id }) {
-  console.log(logEntryData);
   return (
     <Card>
       <Input>

@@ -8,7 +8,6 @@ export default function LogEntryList({ logEntries, onDelete }) {
       <Header id="header">your log entries</Header>
       <EntryList role="list" aria-labelledby="header">
         {logEntries.map(logEntryData => {
-          console.log(logEntryData._id);
           return (
             <li key={logEntryData._id}>
               <LogEntry
