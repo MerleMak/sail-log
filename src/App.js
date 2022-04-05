@@ -7,6 +7,7 @@ import { nanoid } from 'nanoid';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
+  console.log(logEntries);
 
   return (
     <Routes>
@@ -31,13 +32,18 @@ export default function App() {
 
   function handleLogEntry(formData) {
     const newEntry = {
-      formData: formData,
+      boatName: formData.boatName,
+      crewNames: formData.crewNames,
+      windSpeed: formData.windSpeed,
+      windDirection: formData.windDirection,
+      waveHeight: formData.waveHeight,
+      notes: formData.notes,
       _id: nanoid(),
     };
     setLogEntries([...logEntries, newEntry]);
   }
 
   function handleDelete(_id) {
-    setLogEntries(logEntries.filter(Entry => Entry._id !== _id));
+    setLogEntries(logEntries.filter(entry => entry._id !== _id));
   }
 }

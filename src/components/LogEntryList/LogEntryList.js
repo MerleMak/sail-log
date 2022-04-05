@@ -1,7 +1,7 @@
 import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 import { Header } from '../styled-components/Header';
-// check if there are logEntries?
+
 export default function LogEntryList({ logEntries, onDelete }) {
   return (
     <Wrapper>
@@ -12,8 +12,7 @@ export default function LogEntryList({ logEntries, onDelete }) {
             <li key={logEntryData._id}>
               <LogEntry
                 logEntryData={logEntryData}
-                onDelete={onDelete}
-                _id={logEntryData._id}
+                onDelete={() => onDelete(logEntryData._id)}
               />
             </li>
           );

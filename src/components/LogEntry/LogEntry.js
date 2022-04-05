@@ -6,30 +6,28 @@ export default function LogEntry({ logEntryData, onDelete, _id }) {
   return (
     <Card>
       <Input>
-        sail trip on <Highlight>{logEntryData.formData.boatName}</Highlight>
+        sail trip on <Highlight>{logEntryData.boatName}</Highlight>
       </Input>
       <Input>
-        with <Highlight>{logEntryData.formData.crewNames}</Highlight>
+        with <Highlight>{logEntryData.crewNames}</Highlight>
       </Input>
       <Input>
         the speed of wind was
-        <Highlight>{logEntryData.formData.windSpeed}</Highlight>
+        <Highlight>{logEntryData.windSpeed}</Highlight>
       </Input>
       <Input>
-        the wind came from{' '}
-        <Highlight>{logEntryData.formData.windDirection}</Highlight>
+        the wind came from <Highlight>{logEntryData.windDirection}</Highlight>
       </Input>
       <Input>
-        the wave height was{' '}
-        <Highlight>{logEntryData.formData.waveHeight}</Highlight>
+        the wave height was <Highlight>{logEntryData.waveHeight}</Highlight>
       </Input>
       <Textarea>
-        <Highlight>"{logEntryData.formData.notes}"</Highlight>
+        <Highlight>"{logEntryData.notes}"</Highlight>
       </Textarea>
       <Button
         type="button"
         variant="invisible"
-        onClick={() => onDelete(_id)}
+        onClick={onDelete}
         aria-label="Delete this log entry"
       >
         <GrTrash />
