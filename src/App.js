@@ -9,29 +9,24 @@ export default function App() {
   const [logEntries, setLogEntries] = useState([]);
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/create"
-          element={<FormPage onSubmit={handleLogEntry} />}
-        />
-        <Route
-          path="/logbook"
-          element={
-            <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
-          }
-        />
-        <Route
-          path="/*"
-          element={
-            <main style={{ padding: '1rem' }}>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/create" element={<FormPage onSubmit={handleLogEntry} />} />
+      <Route
+        path="/logbook"
+        element={
+          <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
+        }
+      />
+      <Route
+        path="/*"
+        element={
+          <main style={{ padding: '1rem' }}>
+            <p>There's nothing here!</p>
+          </main>
+        }
+      />
+    </Routes>
   );
 
   function handleLogEntry(formData) {

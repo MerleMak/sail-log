@@ -13,7 +13,7 @@ export default function LogEntry({ logEntryData, onDelete, _id }) {
         with <Highlight>{logEntryData.formData.crewNames}</Highlight>
       </Input>
       <Input>
-        the speed of wind was{' '}
+        the speed of wind was
         <Highlight>{logEntryData.formData.windSpeed}</Highlight>
       </Input>
       <Input>
@@ -27,7 +27,12 @@ export default function LogEntry({ logEntryData, onDelete, _id }) {
       <Textarea>
         <Highlight>"{logEntryData.formData.notes}"</Highlight>
       </Textarea>
-      <Button type="button" variant="invisible" onClick={() => onDelete(_id)}>
+      <Button
+        type="button"
+        variant="invisible"
+        onClick={() => onDelete(_id)}
+        aria-label="Delete this log entry"
+      >
         <GrTrash />
       </Button>
     </Card>

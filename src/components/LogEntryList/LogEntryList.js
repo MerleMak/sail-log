@@ -7,10 +7,15 @@ export default function LogEntryList({ logEntries, onDelete }) {
     <Wrapper>
       <Header id="header">your log entries</Header>
       <EntryList role="list" aria-labelledby="header">
-        {logEntries.map((logEntryData, _id) => {
+        {logEntries.map(logEntryData => {
+          console.log(logEntryData._id);
           return (
-            <li key={_id}>
-              <LogEntry logEntryData={logEntryData} onDelete={onDelete} />
+            <li key={logEntryData._id}>
+              <LogEntry
+                logEntryData={logEntryData}
+                onDelete={onDelete}
+                _id={logEntryData._id}
+              />
             </li>
           );
         })}
