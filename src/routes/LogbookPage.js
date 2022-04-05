@@ -4,7 +4,7 @@ import Navigation from '../components/Navigation/Navigation';
 import { GiShoonerSailboat } from 'react-icons/gi';
 import { IconContext } from 'react-icons';
 
-export default function LogbookPage({ logEntries }) {
+export default function LogbookPage({ logEntries, onDelete }) {
   return (
     <Wrapper>
       {logEntries.length === 0 ? (
@@ -15,7 +15,7 @@ export default function LogbookPage({ logEntries }) {
           </IconContext.Provider>
         </EmptyState>
       ) : (
-        <LogEntryList logEntries={logEntries} />
+        <LogEntryList logEntries={logEntries} onDelete={onDelete} />
       )}
       <Navigation />
     </Wrapper>

@@ -2,15 +2,15 @@ import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 import { Header } from '../styled-components/Header';
 // check if there are logEntries?
-export default function LogEntryList({ logEntries }) {
+export default function LogEntryList({ logEntries, onDelete }) {
   return (
     <Wrapper>
       <Header id="header">your log entries</Header>
       <EntryList role="list" aria-labelledby="header">
-        {logEntries.map((logEntryData, index) => {
+        {logEntries.map((logEntryData, _id) => {
           return (
-            <li key={index}>
-              <LogEntry logEntryData={logEntryData} />
+            <li key={_id}>
+              <LogEntry logEntryData={logEntryData} onDelete={onDelete} />
             </li>
           );
         })}

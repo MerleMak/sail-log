@@ -27,4 +27,16 @@ const StyledButton = styled.button`
       background-color: #f2b705;
       color: #012e40;
     `}
+    ${props =>
+    props.variant === 'invisible' &&
+    css`
+      background-color: inherit;
+      border: none;
+      position: absolute;
+      padding: 5px;
+      right: 10px;
+      :hover {
+        cursor: pointer;
+      }
+    `}
 `;

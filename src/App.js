@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './routes/HomePage';
 import FormPage from './routes/FormPage';
 import LogbookPage from './routes/LogbookPage';
+import { nanoid } from 'nanoid';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
@@ -17,7 +18,9 @@ export default function App() {
         />
         <Route
           path="/logbook"
-          element={<LogbookPage logEntries={logEntries} />}
+          element={
+            <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
+          }
         />
         <Route
           path="/*"
@@ -32,6 +35,14 @@ export default function App() {
   );
 
   function handleLogEntry(formData) {
-    setLogEntries([...logEntries, formData]);
+    const newEntry = {
+      formData: formData,
+      _id: nanoid(),
+    };
+    setLogEntries([...logEntries, newEntry]);
+  }
+
+  function handleDelete(_id) {
+    setLogEntries(logEntries.filter(Entry => Entry._id !== _id));
   }
 }
