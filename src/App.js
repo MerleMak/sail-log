@@ -7,7 +7,6 @@ import { nanoid } from 'nanoid';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
-  console.log(logEntries);
 
   return (
     <Routes>
@@ -16,7 +15,7 @@ export default function App() {
       <Route
         path="/logbook"
         element={
-          <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
+          <LogbookPage logEntries={logEntries} onDeleteConfirm={handleDelete} />
         }
       />
       <Route

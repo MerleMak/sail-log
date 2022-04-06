@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { GrTrash } from 'react-icons/gr';
 import Button from '../Button/Button';
 
-export default function LogEntry({ logEntryData, onDelete, _id }) {
+export default function LogEntry({ logEntryData, onClick, _id }) {
   return (
     <Card>
       <Input>
@@ -27,7 +27,7 @@ export default function LogEntry({ logEntryData, onDelete, _id }) {
       <Button
         type="button"
         variant="invisible"
-        onClick={onDelete}
+        onClick={onClick}
         aria-label="Delete this log entry"
       >
         <GrTrash />

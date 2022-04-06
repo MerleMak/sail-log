@@ -2,7 +2,7 @@ import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 import { Header } from '../styled-components/Header';
 
-export default function LogEntryList({ logEntries, onDelete }) {
+export default function LogEntryList({ logEntries, onClick }) {
   return (
     <Wrapper>
       <Header id="header">your log entries</Header>
@@ -12,7 +12,7 @@ export default function LogEntryList({ logEntries, onDelete }) {
             <li key={logEntryData._id}>
               <LogEntry
                 logEntryData={logEntryData}
-                onDelete={() => onDelete(logEntryData._id)}
+                onClick={() => onClick(logEntryData._id)}
               />
             </li>
           );

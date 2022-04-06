@@ -39,4 +39,16 @@ const StyledButton = styled.button`
         cursor: pointer;
       }
     `}
+    ${props =>
+    props.variant === 'confirm' &&
+    css`
+      background-color: seagreen;
+      color: #012e40;
+    `}
+    ${props =>
+    props.variant === 'deny' &&
+    css`
+      background-color: crimson;
+      color: #012e40;
+    `}
 `;
