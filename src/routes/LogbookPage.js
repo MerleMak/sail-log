@@ -92,8 +92,11 @@ const EmptyState = styled.div`
   margin: 10px;
   padding: 50px 0px;
   font-size: 1.3rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Icon = styled(GiShoonerSailboat)`
   margin: 20px;
+  align-self: center;
 `;
