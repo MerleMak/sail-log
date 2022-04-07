@@ -90,5 +90,6 @@ const CreateHeader = styled(Header)`
 //button doesn't adapt styles, any idea why?
 const SaveButton = styled(Button)`
   width: 100px;
-  justify-self: center;
+  align-self: center;
+  margin: 10px;
 `;
