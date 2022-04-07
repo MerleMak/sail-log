@@ -49,8 +49,8 @@ export default function LogbookPage({ logEntries, onDelete }) {
                 fontSize: '1.5rem',
                 left: '25px',
                 right: '25px',
-                top: '150px',
-                bottom: '300px',
+                top: '100px',
+                bottom: '250px',
                 borderRadius: '15px',
               },
             }}
