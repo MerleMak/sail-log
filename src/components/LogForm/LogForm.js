@@ -67,7 +67,6 @@ export default function LogForm({ onSubmit }) {
         labelText="notes:"
         textareaHint="type information like wind direction, wave size.."
         name="notes"
-        required
         onChange={handleOnChange}
       ></LogTextarea>
       <SaveButton type="submit" variant="save">

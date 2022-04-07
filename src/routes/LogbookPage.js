@@ -7,9 +7,11 @@ import { GiShoonerSailboat } from 'react-icons/gi';
 import { IconContext } from 'react-icons';
 import Modal from 'react-modal';
 
-export default function LogbookPage({ logEntries, onDeleteConfirm }) {
+export default function LogbookPage({ logEntries }) {
   const [showModal, setShowModal] = useState(false);
-  const [onDeleteConfirm, setOnDeleteConfirm] = useState(false);
+  const [currentId, setCurrentId] = useState('');
+  const [entries, setEntries] = useState(logEntries);
+  console.log(entries);
   return (
     <Wrapper>
       {logEntries.length === 0 ? (
@@ -21,12 +23,9 @@ export default function LogbookPage({ logEntries, onDeleteConfirm }) {
         </EmptyState>
       ) : (
         <div>
-          <LogEntryList logEntries={logEntries} onClick={handleOpenModal} />
+          <LogEntryList entries={entries} onClick={handleOpenModal} />
           <Modal
             isOpen={showModal}
-            onConfirm={handleConfirm}
-            onDeny={handleDeny}
-            onDeleteConfirm={onDeleteConfirm}
             closeTImeoutMS={0}
             contentLabel="Confirm if you want to delete your log entry"
             id="modal"
@@ -36,13 +35,13 @@ export default function LogbookPage({ logEntries, onDeleteConfirm }) {
             shouldCloseOnEsc={true}
             shouldReturnFocusAfterClose={true}
             preventScroll={true}
-            parentSelector={() => document.body.LogbookPage.LogEntryList}
+            appElement={document.body}
           >
             <p>Are you sure you want to delete this log entry?</p>
-            <Button variant="confirm" onClick={handleConfirm}>
+            <Button variant="confirm" onClick={handleConfirmDelete}>
               Yes, I am sure!
             </Button>
-            <Button variant="deny" onClick={handleDeny}>
+            <Button variant="deny" onClick={() => setShowModal(false)}>
               Keep log entry
             </Button>
           </Modal>
@@ -51,17 +50,13 @@ export default function LogbookPage({ logEntries, onDeleteConfirm }) {
       <Navigation />
     </Wrapper>
   );
-  function handleOpenModal() {
+  function handleOpenModal(_id) {
     setShowModal(true);
+    setCurrentId(_id);
   }
 
-  function handleConfirm() {
-    setOnDeleteConfirm(true);
-    setShowModal(false);
-  }
-
-  function handleDeny() {
-    setOnDeleteConfirm(false);
+  function handleConfirmDelete() {
+    setEntries(entries.filter(entry => entry._id !== currentId));
     setShowModal(false);
   }
 }
