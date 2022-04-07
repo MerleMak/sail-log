@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './routes/HomePage';
 import FormPage from './routes/FormPage';
 import LogbookPage from './routes/LogbookPage';
 import { nanoid } from 'nanoid';
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function App() {
-  const [logEntries, setLogEntries] = useState([]);
+  const [logEntries, setLogEntries] = useLocalStorage('logEntries', []);
 
   return (
     <Routes>
