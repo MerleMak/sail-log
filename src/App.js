@@ -7,7 +7,6 @@ import { nanoid } from 'nanoid';
 
 export default function App() {
   const [logEntries, setLogEntries] = useState([]);
-  console.log(logEntries);
 
   return (
     <Routes>
@@ -42,8 +41,7 @@ export default function App() {
     };
     setLogEntries([...logEntries, newEntry]);
   }
-
-  function handleDelete(_id) {
-    setLogEntries(logEntries.filter(entry => entry._id !== _id));
+  function handleDelete(id) {
+    setLogEntries(logEntries.filter(entry => entry._id !== id));
   }
 }

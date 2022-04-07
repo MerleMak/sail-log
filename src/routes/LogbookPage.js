@@ -1,25 +1,81 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import LogEntryList from '../components/LogEntryList/LogEntryList';
 import Navigation from '../components/Navigation/Navigation';
+import Button from '../components/Button/Button';
 import { GiShoonerSailboat } from 'react-icons/gi';
 import { IconContext } from 'react-icons';
+import Modal from 'react-modal';
 
 export default function LogbookPage({ logEntries, onDelete }) {
+  const [showModal, setShowModal] = useState(false);
+  const [currentId, setCurrentId] = useState('');
   return (
     <Wrapper>
       {logEntries.length === 0 ? (
         <EmptyState>
-          <p>No entries yet.. time to go sailing!</p>
+          No entries yet.. time to go sailing!
           <IconContext.Provider value={{ size: '10rem' }}>
             <Icon />
           </IconContext.Provider>
         </EmptyState>
       ) : (
-        <LogEntryList logEntries={logEntries} onDelete={onDelete} />
+        <div>
+          <LogEntryList logEntries={logEntries} onClick={handleOpenModal} />
+          <Modal
+            isOpen={showModal}
+            closeTImeoutMS={0}
+            contentLabel="Confirm if you want to delete your log entry"
+            id="modal"
+            ariaHideApp={true}
+            shouldFocusAfterRender={true}
+            shouldCloseOnOverlayClick={true}
+            shouldCloseOnEsc={true}
+            shouldReturnFocusAfterClose={true}
+            preventScroll={true}
+            appElement={document.body}
+            style={{
+              overlay: {
+                backgroundColor: '#37748C',
+                opacity: '97%',
+              },
+              content: {
+                color: ' #37748C',
+                alignContent: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '20px',
+                fontSize: '1.5rem',
+                left: '25px',
+                right: '25px',
+                bottom: '300px',
+                top: '200px',
+                borderRadius: '15px',
+              },
+            }}
+          >
+            <p> Are you sure you want to delete this log entry?</p>
+
+            <Button variant="confirm" onClick={handleConfirmDelete}>
+              Delete log entry
+            </Button>
+            <Button variant="deny" onClick={() => setShowModal(false)}>
+              Keep log entry
+            </Button>
+          </Modal>
+        </div>
       )}
       <Navigation />
     </Wrapper>
   );
+  function handleOpenModal(_id) {
+    setShowModal(true);
+    setCurrentId(_id);
+  }
+  function handleConfirmDelete() {
+    onDelete(currentId);
+    setShowModal(false);
+  }
 }
 
 const Wrapper = styled.div`

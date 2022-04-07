@@ -2,18 +2,15 @@ import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 import { Header } from '../styled-components/Header';
 
-export default function LogEntryList({ logEntries, onDelete }) {
+export default function LogEntryList({ logEntries, onClick }) {
   return (
     <Wrapper>
       <Header id="header">your log entries</Header>
       <EntryList role="list" aria-labelledby="header">
-        {logEntries.map(logEntryData => {
+        {logEntries.map(entry => {
           return (
-            <li key={logEntryData._id}>
-              <LogEntry
-                logEntryData={logEntryData}
-                onDelete={() => onDelete(logEntryData._id)}
-              />
+            <li key={entry._id}>
+              <LogEntry entry={entry} onClick={() => onClick(entry._id)} />
             </li>
           );
         })}

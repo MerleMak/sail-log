@@ -2,32 +2,32 @@ import styled from 'styled-components';
 import { GrTrash } from 'react-icons/gr';
 import Button from '../Button/Button';
 
-export default function LogEntry({ logEntryData, onDelete, _id }) {
+export default function LogEntry({ entry, onClick }) {
   return (
     <Card>
       <Input>
-        sail trip on <Highlight>{logEntryData.boatName}</Highlight>
+        sail trip on <Highlight>{entry.boatName}</Highlight>
       </Input>
       <Input>
-        with <Highlight>{logEntryData.crewNames}</Highlight>
+        with <Highlight>{entry.crewNames}</Highlight>
       </Input>
       <Input>
         the speed of wind was
-        <Highlight>{logEntryData.windSpeed}</Highlight>
+        <Highlight>{entry.windSpeed}</Highlight>
       </Input>
       <Input>
-        the wind came from <Highlight>{logEntryData.windDirection}</Highlight>
+        the wind came from <Highlight>{entry.windDirection}</Highlight>
       </Input>
       <Input>
-        the wave height was <Highlight>{logEntryData.waveHeight}</Highlight>
+        the wave height was <Highlight>{entry.waveHeight}</Highlight>
       </Input>
       <Textarea>
-        <Highlight>"{logEntryData.notes}"</Highlight>
+        <Highlight>"{entry.notes}"</Highlight>
       </Textarea>
       <Button
         type="button"
         variant="invisible"
-        onClick={onDelete}
+        onClick={onClick}
         aria-label="Delete this log entry"
       >
         <GrTrash />
