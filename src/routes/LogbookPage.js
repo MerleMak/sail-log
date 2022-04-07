@@ -48,8 +48,8 @@ export default function LogbookPage({ logEntries, onDelete }) {
                 fontSize: '1.5rem',
                 left: '25px',
                 right: '25px',
-                bottom: '300px',
-                top: '200px',
+                bottom: '200px',
+                top: '100px',
                 borderRadius: '15px',
               },
             }}
@@ -87,6 +87,7 @@ const Wrapper = styled.div`
 
 const EmptyState = styled.div`
   text-align: center;
+  margin: 10px;
   padding: 50px 0px;
   font-size: 1.3rem;
 `;
