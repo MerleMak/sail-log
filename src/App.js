@@ -14,7 +14,9 @@ export default function App() {
       <Route path="/create" element={<FormPage onSubmit={handleLogEntry} />} />
       <Route
         path="/logbook"
-        element={<LogbookPage logEntries={logEntries} />}
+        element={
+          <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
+        }
       />
       <Route
         path="/*"
@@ -38,5 +40,8 @@ export default function App() {
       _id: nanoid(),
     };
     setLogEntries([...logEntries, newEntry]);
+  }
+  function handleDelete(id) {
+    setLogEntries(logEntries.filter(entry => entry._id !== id));
   }
 }
