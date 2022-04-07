@@ -14,7 +14,7 @@ export default function LogbookPage({ logEntries, onDelete }) {
     <Wrapper>
       {logEntries.length === 0 ? (
         <EmptyState>
-          No entries yet.. time to go sailing!
+          <p>No entries yet.. time to go sailing!</p>
           <IconContext.Provider value={{ size: '10rem' }}>
             <Icon />
           </IconContext.Provider>
@@ -41,16 +41,18 @@ export default function LogbookPage({ logEntries, onDelete }) {
               },
               content: {
                 color: ' #37748C',
-                alignContent: 'center',
                 display: 'flex',
                 flexDirection: 'column',
+                alignContent: 'center',
+                justifyContent: 'center',
                 gap: '20px',
                 fontSize: '1.5rem',
-                left: '25px',
-                right: '25px',
-                bottom: '300px',
-                top: '200px',
+                right: '15px',
+                left: '15px',
+                top: 'auto',
+                bottom: 'auto',
                 borderRadius: '15px',
+                marginTop: '100px',
               },
             }}
           >
@@ -87,6 +89,7 @@ const Wrapper = styled.div`
 
 const EmptyState = styled.div`
   text-align: center;
+  margin: 10px;
   padding: 50px 0px;
   font-size: 1.3rem;
 `;
