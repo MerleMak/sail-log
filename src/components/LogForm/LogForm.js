@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import LogInput from '../LogInput/LogInput';
 import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
-import { Header } from '../styled-components/Header';
+import { Header } from '../../styled-components/Header';
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -39,7 +39,7 @@ export default function LogForm({ onSubmit }) {
   }
 
   function onImageSave(response) {
-    setFormData(response.data.url);
+    setImage(response.data.url);
   }
 
   function onDataSave() {
