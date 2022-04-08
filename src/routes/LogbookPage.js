@@ -104,5 +104,4 @@ const Icon = styled(GiShoonerSailboat)`
 const LogEntryListWrapper = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
-  margin-bottom: 2px;
 `;
