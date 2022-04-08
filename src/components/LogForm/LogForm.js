@@ -4,9 +4,14 @@ import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
 import { Header } from '../styled-components/Header';
 import { useState } from 'react';
+import axios from 'axios';
+
+const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
+const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
 export default function LogForm({ onSubmit }) {
   const [formData, setFormData] = useState('');
+  const [image, setImage] = useState('');
 
   function handleOnChange(event) {
     const { name, value } = event.target;
@@ -14,6 +19,31 @@ export default function LogForm({ onSubmit }) {
       ...formData,
       [name]: value,
     });
+  }
+
+  function upload(event) {
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
+    const formData = new FormData();
+    formData.append('file', event.target.files[0]);
+    formData.append('upload_preset', PRESET);
+
+    axios
+      .post(url, formData, {
+        headers: {
+          'Content-type': 'multipart/form-data',
+        },
+      })
+      .then(onImageSave)
+      .then(onDataSave)
+      .catch(err => console.error(err));
+  }
+
+  function onImageSave(response) {
+    setFormData(response.data.url);
+  }
+
+  function onDataSave() {
+    setFormData(...formData, (formData.image = image));
   }
 
   function handleSubmit(event) {
@@ -69,6 +99,25 @@ export default function LogForm({ onSubmit }) {
         name="notes"
         onChange={handleOnChange}
       ></LogTextarea>
+      <div>
+        {image ? (
+          <img
+            src={image}
+            alt=""
+            style={{
+              width: '90vw',
+              margin: '5vw',
+            }}
+          />
+        ) : (
+          <input
+            type="file"
+            name="file"
+            aria-label="upload-your-picture"
+            onChange={upload}
+          />
+        )}
+      </div>
       <SaveButton type="submit" variant="save">
         save
       </SaveButton>
@@ -84,12 +133,12 @@ const Form = styled.form`
 `;
 
 const CreateHeader = styled(Header)`
+  width: auto;
   font-size: 32px;
 `;
 
-//button doesn't adapt styles, any idea why?
 const SaveButton = styled(Button)`
   width: 100px;
   align-self: center;
-  margin: 10px;
+  margin: auto;
 `;
