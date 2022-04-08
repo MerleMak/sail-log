@@ -24,6 +24,7 @@ export default function LogEntry({ entry, onClick }) {
       <Textarea>
         <Highlight>"{entry.notes}"</Highlight>
       </Textarea>
+      <img src={entry.image} alt="" />
       <Button
         type="button"
         variant="invisible"

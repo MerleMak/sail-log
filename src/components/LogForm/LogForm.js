@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import LogInput from '../LogInput/LogInput';
 import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
-import { Header } from '../../styled-components/Header';
+import { Header } from '../styled-components/Header';
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
 export default function LogForm({ onSubmit }) {
-  const [formData, setFormData] = useState('');
+  const [formData, setFormData] = useState({});
   const [image, setImage] = useState('');
 
   function handleOnChange(event) {
@@ -34,7 +34,6 @@ export default function LogForm({ onSubmit }) {
         },
       })
       .then(onImageSave)
-      .then(onDataSave)
       .catch(err => console.error(err));
   }
 
@@ -42,14 +41,10 @@ export default function LogForm({ onSubmit }) {
     setImage(response.data.url);
   }
 
-  function onDataSave() {
-    setFormData(...formData, (formData.image = image));
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
-    onSubmit(formData);
+    onSubmit(formData, image);
     form.reset();
   }
 
