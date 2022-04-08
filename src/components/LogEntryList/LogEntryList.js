@@ -4,7 +4,7 @@ import { Header } from '../styled-components/Header';
 
 export default function LogEntryList({ logEntries, onClick }) {
   return (
-    <Wrapper>
+    <div>
       <Header id="header">your log entries</Header>
       <EntryList role="list" aria-labelledby="header">
         {logEntries.map(entry => {
@@ -15,13 +15,9 @@ export default function LogEntryList({ logEntries, onClick }) {
           );
         })}
       </EntryList>
-    </Wrapper>
+    </div>
   );
 }
-const Wrapper = styled.div`
-  overflow-y: auto;
-  overflow-x: hidden;
-`;
 
 const EntryList = styled.ul`
   list-style: none;

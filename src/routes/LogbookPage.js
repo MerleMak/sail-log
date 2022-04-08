@@ -20,7 +20,7 @@ export default function LogbookPage({ logEntries, onDelete }) {
           </IconContext.Provider>
         </EmptyState>
       ) : (
-        <div>
+        <LogEntryListWrapper>
           <LogEntryList logEntries={logEntries} onClick={handleOpenModal} />
           <Modal
             isOpen={showModal}
@@ -65,7 +65,7 @@ export default function LogbookPage({ logEntries, onDelete }) {
               Keep log entry
             </Button>
           </Modal>
-        </div>
+        </LogEntryListWrapper>
       )}
       <Navigation />
     </Wrapper>
@@ -99,4 +99,9 @@ const EmptyState = styled.div`
 const Icon = styled(GiShoonerSailboat)`
   margin: 20px;
   align-self: center;
+`;
+
+const LogEntryListWrapper = styled.div`
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
