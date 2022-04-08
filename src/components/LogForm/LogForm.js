@@ -4,6 +4,7 @@ import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
 import { Header } from '../styled-components/Header';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
@@ -12,6 +13,7 @@ const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 export default function LogForm({ onSubmit }) {
   const [formData, setFormData] = useState({});
   const [image, setImage] = useState('');
+  const navigate = useNavigate();
 
   function handleOnChange(event) {
     const { name, value } = event.target;
@@ -46,6 +48,7 @@ export default function LogForm({ onSubmit }) {
     const form = event.target;
     onSubmit(formData, image);
     form.reset();
+    navigate('../logbook');
   }
 
   return (
@@ -94,14 +97,14 @@ export default function LogForm({ onSubmit }) {
         name="notes"
         onChange={handleOnChange}
       ></LogTextarea>
-      <div>
+      <ImageUpload>
         {image ? (
           <img
             src={image}
             alt=""
             style={{
-              width: '90vw',
-              margin: '5vw',
+              width: '90%',
+              margin: '5%',
             }}
           />
         ) : (
@@ -112,7 +115,7 @@ export default function LogForm({ onSubmit }) {
             onChange={upload}
           />
         )}
-      </div>
+      </ImageUpload>
       <SaveButton type="submit" variant="save">
         save
       </SaveButton>
@@ -132,8 +135,22 @@ const CreateHeader = styled(Header)`
   font-size: 32px;
 `;
 
+const ImageUpload = styled.div`
+  border: #012e40 2px solid;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 10px;
+  input {
+    border: #012e40 2px solid;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #d5e5f2;
+    color: #012e40;
+  }
+`;
+
 const SaveButton = styled(Button)`
   width: 100px;
   align-self: center;
-  margin: auto;
+  margin: 10px;
 `;
