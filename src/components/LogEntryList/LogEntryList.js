@@ -24,6 +24,6 @@ const EntryList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 0px 15px;
+  margin: 2px 15px;
   padding: 0;
 `;
