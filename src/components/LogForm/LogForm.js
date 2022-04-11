@@ -113,6 +113,7 @@ export default function LogForm({ onSubmit }) {
             name="file"
             aria-label="upload-your-picture"
             onChange={upload}
+            multiple="multiple"
           />
         )}
       </ImageUpload>
