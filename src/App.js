@@ -7,6 +7,7 @@ import { useLocalStorage } from 'usehooks-ts';
 
 export default function App() {
   const [logEntries, setLogEntries] = useLocalStorage('logEntries', []);
+  console.log(logEntries);
 
   return (
     <Routes>
@@ -29,7 +30,7 @@ export default function App() {
     </Routes>
   );
 
-  function handleLogEntry(formData) {
+  function handleLogEntry(formData, image) {
     const newEntry = {
       boatName: formData.boatName,
       crewNames: formData.crewNames,
@@ -37,6 +38,7 @@ export default function App() {
       windDirection: formData.windDirection,
       waveHeight: formData.waveHeight,
       notes: formData.notes,
+      image: image,
       _id: nanoid(),
     };
     setLogEntries([...logEntries, newEntry]);

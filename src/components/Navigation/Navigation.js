@@ -8,7 +8,7 @@ export default function Navigation() {
   return (
     <Nav>
       <Link to="/">
-        <IconContext.Provider value={{ size: '1.5rem', color: 'white' }}>
+        <IconContext.Provider value={{ size: '1.5rem' }}>
           <GrAnchor />
         </IconContext.Provider>
       </Link>
@@ -43,5 +43,5 @@ const Link = styled(NavLink)`
 `;
 
 const VerticalLine = styled(FaGripLinesVertical)`
-  color: black;
+  color: #012e40;
 `;

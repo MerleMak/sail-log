@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { GrTrash } from 'react-icons/gr';
+import { IconContext } from 'react-icons';
 import Button from '../Button/Button';
 
 export default function LogEntry({ entry, onClick }) {
@@ -24,13 +25,16 @@ export default function LogEntry({ entry, onClick }) {
       <Textarea>
         <Highlight>"{entry.notes}"</Highlight>
       </Textarea>
+      <UploadedImage src={entry.image} alt=""></UploadedImage>
       <Button
         type="button"
         variant="invisible"
         onClick={onClick}
         aria-label="Delete this log entry"
       >
-        <GrTrash />
+        <IconContext.Provider value={{ stroke: 'white' }}>
+          <GrTrash />
+        </IconContext.Provider>
       </Button>
     </Card>
   );
@@ -39,7 +43,8 @@ export default function LogEntry({ entry, onClick }) {
 const Card = styled.section`
   display: flex;
   flex-direction: column;
-  border: 2px #012e40 solid;
+  //border: 2px #012e40 solid;
+  box-shadow: 3px 3px 3px;
   border-radius: 15px;
   height: fit-content;
   color: #012e40;
@@ -58,4 +63,11 @@ const Input = styled.span`
 `;
 const Textarea = styled.span`
   margin: 10px;
+`;
+
+const UploadedImage = styled.img`
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px;
+  margin-left: -1px;
 `;
