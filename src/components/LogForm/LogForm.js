@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import LogInput from '../LogInput/LogInput';
 import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
+import { GrTrash } from 'react-icons/gr';
+import { IconContext } from 'react-icons';
 import { Header } from '../styled-components/Header';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { progressive } from '@cloudinary/url-gen/qualifiers/progressive';
+import { PreviewAction } from '@cloudinary/url-gen/actions/videoEdit/PreviewAction';
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
@@ -13,6 +17,9 @@ const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 export default function LogForm({ onSubmit }) {
   const [formData, setFormData] = useState({});
   const [image, setImage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [process, setProcess] = useState(0);
+
   const navigate = useNavigate();
 
   function handleOnChange(event) {
@@ -34,6 +41,13 @@ export default function LogForm({ onSubmit }) {
         headers: {
           'Content-type': 'multipart/form-data',
         },
+        onUploadProgress: progressEvent => {
+          setLoading(true);
+          let percent = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total
+          );
+          setProcess(percent);
+        },
       })
       .then(onImageSave)
       .catch(err => console.error(err));
@@ -41,6 +55,13 @@ export default function LogForm({ onSubmit }) {
 
   function onImageSave(response) {
     setImage(response.data.url);
+    setLoading(false);
+  }
+
+  function handleRemoveImage() {
+    setImage('');
+    setProcess(0);
+    setLoading(false);
   }
 
   function handleSubmit(event) {
@@ -92,29 +113,45 @@ export default function LogForm({ onSubmit }) {
       ></LogInput>
       <LogTextarea
         type="text"
-        labelText="notes:"
+        labelText="notes"
         textareaHint="type information like wind direction, wave size.."
         name="notes"
         onChange={handleOnChange}
       ></LogTextarea>
       <ImageUpload>
+        {loading && (
+          <UploadProgress> Uploading Image...{process}%</UploadProgress>
+        )}
         {image ? (
-          <img
-            src={image}
-            alt=""
-            style={{
-              width: '90%',
-              margin: '5%',
-            }}
-          />
+          <Preview>
+            <img
+              src={image}
+              alt=""
+              style={{
+                width: '90%',
+                margin: '5%',
+                borderRadius: '10px',
+              }}
+            />
+            <DeleteButton
+              type="button"
+              variant="deny"
+              onClick={handleRemoveImage}
+              aria-label="Remove this image from the log entry"
+            >
+              <GrTrash />
+            </DeleteButton>
+          </Preview>
         ) : (
-          <input
-            type="file"
-            name="file"
-            aria-label="upload-your-picture"
-            onChange={upload}
-            multiple="multiple"
-          />
+          <UploadWrapper>
+            <label>upload a picture of this trip</label>
+            <input
+              type="file"
+              name="file"
+              aria-label="upload-your-picture"
+              onChange={upload}
+            />
+          </UploadWrapper>
         )}
       </ImageUpload>
       <SaveButton type="submit" variant="save">
@@ -140,7 +177,34 @@ const ImageUpload = styled.div`
   border: #012e40 2px solid;
   border-radius: 20px;
   margin: 10px;
-  padding: 10px;
+  padding: 8px;
+`;
+
+const UploadProgress = styled.div`
+  margin: 10px;
+`;
+
+const Preview = styled.div`
+  position: relative;
+`;
+
+const DeleteButton = styled(Button)`
+  position: absolute;
+  right: 3px;
+  border-radius: 20px;
+  padding: 8px;
+  padding-top: 10px;
+`;
+
+const UploadWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+  label {
+    font-size: 1.5rem;
+    margin: 5px;
+  }
   input {
     border: #012e40 2px solid;
     border-radius: 10px;

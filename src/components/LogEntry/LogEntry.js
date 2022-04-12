@@ -26,16 +26,16 @@ export default function LogEntry({ entry, onClick }) {
         <Highlight>"{entry.notes}"</Highlight>
       </Textarea>
       <UploadedImage src={entry.image} alt=""></UploadedImage>
-      <Button
+      <DeleteButton
         type="button"
         variant="invisible"
         onClick={onClick}
         aria-label="Delete this log entry"
       >
-        <IconContext.Provider value={{ stroke: 'white' }}>
+        <IconContext.Provider value={{ stroke: 'black' }}>
           <GrTrash />
         </IconContext.Provider>
-      </Button>
+      </DeleteButton>
     </Card>
   );
 }
@@ -63,6 +63,11 @@ const Input = styled.span`
 `;
 const Textarea = styled.span`
   margin: 10px;
+`;
+
+const DeleteButton = styled(Button)`
+  position: absolute;
+  right: 7px;
 `;
 
 const UploadedImage = styled.img`
