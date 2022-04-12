@@ -44,7 +44,7 @@ const StyledButton = styled.button`
     props.variant === 'confirm' &&
     css`
       background-color: #bf0603;
-      color: #012e40;
+      color: white;
       :hover {
         cursor: pointer;
       }
@@ -52,7 +52,7 @@ const StyledButton = styled.button`
     ${props =>
     props.variant === 'deny' &&
     css`
-      background-color: #f2b705;
+      background-color: seagreen;
       color: #012e40;
       :hover {
         cursor: pointer;

@@ -135,7 +135,7 @@ export default function LogForm({ onSubmit }) {
             />
             <DeleteButton
               type="button"
-              variant="deny"
+              variant="navigate"
               onClick={handleRemoveImage}
               aria-label="Remove this image from the log entry"
             >
