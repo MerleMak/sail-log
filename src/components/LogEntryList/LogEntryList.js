@@ -2,7 +2,7 @@ import LogEntry from '../LogEntry/LogEntry';
 import styled from 'styled-components';
 import { Header } from '../styled-components/Header';
 
-export default function LogEntryList({ logEntries, onClick }) {
+export default function LogEntryList({ logEntries, onClick, onEdit }) {
   return (
     <div>
       <Header id="header">your log entries</Header>
