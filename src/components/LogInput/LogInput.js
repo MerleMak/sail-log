@@ -32,6 +32,7 @@ const InputWrapper = styled.section`
   margin: 10px;
   border: #012e40 2px solid;
   border-radius: 20px;
+  color: #012e40;
   label {
     margin-bottom: 10px;
     font-size: 1.5rem;
