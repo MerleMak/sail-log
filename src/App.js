@@ -7,7 +7,6 @@ import { useLocalStorage } from 'usehooks-ts';
 
 export default function App() {
   const [logEntries, setLogEntries] = useLocalStorage('logEntries', []);
-  console.log(logEntries);
 
   return (
     <Routes>

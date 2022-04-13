@@ -26,15 +26,16 @@ const StyledButton = styled.button`
     css`
       background-color: #f2b705;
       color: #012e40;
+      :hover {
+        cursor: pointer;
+      }
     `}
     ${props =>
     props.variant === 'invisible' &&
     css`
+      padding: 10px;
       background-color: inherit;
       border: none;
-      position: absolute;
-      padding: 5px;
-      right: 10px;
       :hover {
         cursor: pointer;
       }
@@ -42,13 +43,19 @@ const StyledButton = styled.button`
     ${props =>
     props.variant === 'confirm' &&
     css`
-      background-color: seagreen;
-      color: #012e40;
+      background-color: #bf0603;
+      color: white;
+      :hover {
+        cursor: pointer;
+      }
     `}
     ${props =>
     props.variant === 'deny' &&
     css`
-      background-color: crimson;
+      background-color: seagreen;
       color: #012e40;
+      :hover {
+        cursor: pointer;
+      }
     `}
 `;
