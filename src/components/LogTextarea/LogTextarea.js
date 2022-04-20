@@ -1,54 +1,40 @@
 import styled from 'styled-components';
 
 export default function LogTextarea({
-  type,
   labelText,
   textareaHint,
   name,
-  required,
   onChange,
 }) {
   return (
-    <TextareaWrapper>
-      <label htmlFor={name}>{labelText}</label>
+    <>
+      <Label htmlFor={name}>{labelText}</Label>
       <TextareaHint id="instruction">{textareaHint}</TextareaHint>
-      <textarea
-        type={type}
+      <Textarea
         aria-describedby="instruction"
         rows={6}
         id={name}
         name={name}
-        required={required}
         onChange={onChange}
-      ></textarea>
-    </TextareaWrapper>
+      ></Textarea>
+    </>
   );
 }
 
-const TextareaWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  color: #d5e5f2;
-  padding: 15px;
-  margin: 10px;
+const Label = styled.label`
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  margin: 5px;
+`;
+
+const Textarea = styled.textarea`
+  padding: 10px;
+  background-color: #d5e5f2;
   border: #012e40 2px solid;
-  border-radius: 20px;
-  label {
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-  }
-  textarea {
-    border-radius: 15px;
-    margin: -7px;
-    margin-top: 5px;
-    padding: 10px;
-    background-color: #d5e5f2;
-    border: #012e40 2px solid;
-  }
+  border-radius: 15px;
 `;
 
 const TextareaHint = styled.p`
   font-size: 0.9rem;
-  margin: 0;
+  margin: 5px;
 `;
