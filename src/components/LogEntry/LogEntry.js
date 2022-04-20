@@ -43,7 +43,6 @@ export default function LogEntry({ entry, onClick }) {
 const Card = styled.section`
   display: flex;
   flex-direction: column;
-  //border: 2px #012e40 solid;
   box-shadow: 3px 3px 3px;
   border-radius: 15px;
   height: fit-content;

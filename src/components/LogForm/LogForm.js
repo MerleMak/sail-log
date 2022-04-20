@@ -6,26 +6,229 @@ import { GrTrash } from 'react-icons/gr';
 import { IconContext } from 'react-icons';
 import { Header } from '../styled-components/Header';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-export default function LogForm({ onSubmit }) {
-  const [formData, setFormData] = useState({});
+export default function LogForm({ header, preloadedValues, handleEntry }) {
+  const [tripDate, setTripDate] = useState('');
+  const [boatName, setBoatName] = useState('');
+  const [crewNames, setCrewNames] = useState('');
+  const [windSpeed, setWindSpeed] = useState('');
+  const [windDirection, setWindDirection] = useState('');
+  const [waveHeight, setWaveHeight] = useState('');
+  const [notes, setNotes] = useState('');
   const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(0);
   const navigate = useNavigate();
 
-  function handleOnChange(event) {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
+  const {
+    register,
+    handleSubmit,
+    trigger,
+    formState: { errors },
+  } = useForm({
+    mode: 'all',
+    defaultValues: preloadedValues
+      ? {
+          tripDate: new Date(preloadedValues.tripDate)
+            .toISOString()
+            .split('T')[0],
+          boatName: preloadedValues.boatName,
+          crewNames: preloadedValues.crewNames,
+          windSpeed: preloadedValues.windSpeed,
+          windDirection: preloadedValues.windDirection,
+          waveHeight: preloadedValues.waveHeight,
+          notes: preloadedValues.notes,
+          image: preloadedValues.image,
+        }
+      : {
+          tripDate: '',
+          boatName: '',
+          crewNames: '',
+          windSpeed: '',
+          windDirection: '',
+          waveHeight: '',
+          notes: '',
+          image: '',
+        },
+  });
+
+  return (
+    <Form
+      autoComplete="off"
+      aria-labelledby="header"
+      onSubmit={handleSubmit(post => onSubmit(post))}
+    >
+      <FormHeader id="header">{header}</FormHeader>
+
+      <Container>
+        <LogInput
+          name="tripDate"
+          {...register('tripDate', { required: true })}
+          type="date"
+          labelText="date of the trip"
+          inputHint="- Select the date of this trip -"
+          onChange={event => {
+            setTripDate(event.target.value);
+          }}
+        />
+      </Container>
+
+      <Container>
+        <LogInput
+          name="boatName"
+          {...register('boatName', { required: true, maxLength: 40 })}
+          type="text"
+          labelText="name of the boat"
+          onChange={event => {
+            setBoatName(event.target.value);
+          }}
+        />
+      </Container>
+
+      <Container>
+        <LogInput
+          name="crewNames"
+          {...register('crewNames', { maxLength: 100 })}
+          type="text"
+          labelText="names of the crew"
+          inputHint="- type in the names separated by a comma -"
+          onChange={event => {
+            setCrewNames(event.target.value);
+          }}
+        />
+      </Container>
+
+      <SelectContainer>
+        <Input
+          name="windSpeed"
+          {...register('windSpeed', { maxLength: 5 })}
+          type="text"
+          labelText="speed of wind"
+          onChange={event => {
+            setWindSpeed(event.target.value);
+          }}
+        />
+        <Select {...register('windUnit')}>
+          <option selected value="Bft">
+            Beaufort
+          </option>
+          <option value="m/s">m/s</option>
+          <option value="km/h">km/h</option>
+          <option value="kn">kn</option>
+          <option value="mph">mph</option>
+        </Select>
+      </SelectContainer>
+
+      <Container>
+        <Label htmlFor="windDirection">direction of wind</Label>
+        <Select
+          {...register('windDirection', { maxLength: 4 })}
+          id="windDirections"
+          name="windDirection"
+          onChange={event => {
+            setWindDirection(event.target.value);
+          }}
+        >
+          <option selected value="N">
+            N
+          </option>
+          <option value="NE">NE</option>
+          <option value="E">E</option>
+          <option value="SE">SE</option>
+          <option value="S">S</option>
+          <option value="SW">SW</option>
+          <option value="W">W</option>
+          <option value="NW">NW</option>
+        </Select>
+      </Container>
+
+      <SelectContainer>
+        <Input
+          name="waveHeight"
+          {...register('waveHeight', { maxLength: 4 })}
+          type="text"
+          labelText="height of waves"
+          onChange={event => {
+            setWaveHeight(event.target.value);
+          }}
+        />
+        <Select {...register('WaveUnit')}>
+          <option selected value="m">
+            m
+          </option>
+          <option value="m/s">cm</option>
+          <option value="m">ft</option>
+          <option value="m/s">inch</option>
+        </Select>
+      </SelectContainer>
+
+      <Container>
+        <LogTextarea
+          name="notes"
+          {...register('waveHeight', { maxLength: 4 })}
+          labelText="notes"
+          textareaHint="- type additional information to your trip -"
+          onChange={event => {
+            setNotes(event.target.value);
+          }}
+        ></LogTextarea>
+      </Container>
+      <ImageUpload>
+        <label htmlFor="file">upload a picture of your trip</label>
+        {loading && (
+          <UploadProgress>uploading image...{process}%</UploadProgress>
+        )}
+        {image ? (
+          <Preview>
+            <DeleteButton
+              type="button"
+              variant="deny"
+              onClick={handleRemoveImage}
+              aria-label="Remove this image from the entry"
+            >
+              <IconContext.Provider value={{ stroke: 'white' }}>
+                <GrTrash />
+              </IconContext.Provider>
+            </DeleteButton>
+
+            <img
+              src={image}
+              alt="your sailing trip"
+              style={{
+                width: '96%',
+                margin: '2%',
+              }}
+            />
+          </Preview>
+        ) : (
+          <input
+            type="file"
+            name="file"
+            id="file"
+            aria-label="upload-your-picture"
+            onChange={upload}
+            multiple="multiple"
+          />
+        )}
+      </ImageUpload>
+
+      <SaveButton
+        type="submit"
+        variant="save"
+        onClick={async () => {
+          const formData = await trigger(['tripDate', 'boatName']);
+        }}
+      >
+        Save to logbook
+      </SaveButton>
+    </Form>
+  );
 
   function upload(event) {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
@@ -60,104 +263,19 @@ export default function LogForm({ onSubmit }) {
     setProcess(0);
     setLoading(false);
   }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const form = event.target;
-    onSubmit(formData, image);
-    form.reset();
+  function onSubmit(post) {
+    handleEntry({
+      tripDate: post.tripDate,
+      boatName: post.beatName,
+      crewNames: post.crewNames,
+      windSpeed: post.windSpeed,
+      windDirection: post.windDirection,
+      waveHeight: post.waveHeight,
+      notes: post.notes,
+      image: post.image,
+    });
     navigate('../logbook');
   }
-
-  return (
-    <Form autoComplete="off" aria-labelledby="header" onSubmit={handleSubmit}>
-      <CreateHeader id="header">create new log entry</CreateHeader>
-      <LogInput
-        type="text"
-        labelText="name of the boat"
-        name="boatName"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="names of the crew"
-        inputHint="type in the names separated by a comma"
-        name="crewNames"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="speed of wind"
-        name="windSpeed"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="direction of wind"
-        name="windDirection"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="height of waves"
-        name="waveHeight"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogTextarea
-        type="text"
-        labelText="notes"
-        textareaHint="type information like wind direction, wave size.."
-        name="notes"
-        onChange={handleOnChange}
-      ></LogTextarea>
-      <ImageUpload>
-        <label htmlFor="file">upload a picture of your trip</label>
-        {loading && (
-          <UploadProgress>uploading image...{process}%</UploadProgress>
-        )}
-        {image ? (
-          <Preview>
-            <DeleteButton
-              type="button"
-              variant="deny"
-              onClick={handleRemoveImage}
-              aria-label="Remove this image from the entry"
-            >
-              <IconContext.Provider value={{ stroke: 'white' }}>
-                <GrTrash />
-              </IconContext.Provider>
-            </DeleteButton>
-
-            <img
-              src={image}
-              alt="your sailing trip"
-              style={{
-                width: '90%',
-                margin: '5%',
-              }}
-            />
-          </Preview>
-        ) : (
-          <input
-            type="file"
-            name="file"
-            id="file"
-            aria-label="upload-your-picture"
-            onChange={upload}
-            multiple="multiple"
-          />
-        )}
-      </ImageUpload>
-      <SaveButton type="submit" variant="save">
-        save
-      </SaveButton>
-    </Form>
-  );
 }
 
 const Form = styled.form`
@@ -166,10 +284,53 @@ const Form = styled.form`
   overflow-y: auto;
   overflow-x: hidden;
 `;
-
-const CreateHeader = styled(Header)`
+const FormHeader = styled(Header)`
   width: auto;
   font-size: 32px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  color: #d5e5f2;
+  padding: 10px;
+  margin: 10px;
+  border: #012e40 2px solid;
+  border-radius: 20px;
+`;
+
+const SelectContainer = styled.div`
+  color: #d5e5f2;
+  padding: 10px;
+  margin: 10px;
+  border: #012e40 2px solid;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: 3;
+  gap: 2px;
+`;
+
+const Input = styled(LogInput)`
+  border: none;
+  width: 90%;
+`;
+
+const Select = styled.select`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
+  font-family: Raleway;
+  font-size: 1rem;
+  grid-column: 2/3;
+`;
+
+const Label = styled.label`
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  margin: 5px;
 `;
 
 const ImageUpload = styled.div`
@@ -186,11 +347,22 @@ const ImageUpload = styled.div`
   }
   input {
     border: #012e40 2px solid;
-    border-radius: 10px;
+    border-radius: 15px;
     width: 100%;
     background-color: #d5e5f2;
     color: #012e40;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    padding: 10px;
+
+    ::-webkit-file-upload-button {
+      font-family: Raleway;
+      margin-right: 10px;
+      border-radius: 10px;
+      background-color: #f2b705;
+      color: #012e40;
+      border: none;
+      box-shadow: 1px 2px 2px black;
+    }
   }
 `;
 
@@ -209,12 +381,14 @@ const Preview = styled.div`
 
 const DeleteButton = styled(Button)`
   position: absolute;
-  right: 5px;
-  box-shadow: 1px 2px 2px black;
+  right: -2px;
+  top: -5px;
+  padding: 10px 10px 7px 10px;
+  border-radius: 10px;
 `;
 
 const SaveButton = styled(Button)`
-  width: 100px;
+  width: fit-content;
   align-self: center;
-  margin: 10px;
+  margin: 15px;
 `;

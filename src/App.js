@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import HomePage from './routes/HomePage';
 import FormPage from './routes/FormPage';
 import LogbookPage from './routes/LogbookPage';
+import EditPage from './routes/Editpage';
 import { nanoid } from 'nanoid';
 import { useLocalStorage } from 'usehooks-ts';
 
@@ -11,13 +12,14 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/create" element={<FormPage onSubmit={handleLogEntry} />} />
+      <Route path="/create" element={<FormPage onEntry={handleLogEntry} />} />
       <Route
         path="/logbook"
         element={
           <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
         }
       />
+      <Route path="/edit" element={<EditPage onSubmit={handleLogEntry} />} />
       <Route
         path="/*"
         element={
