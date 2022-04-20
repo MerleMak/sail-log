@@ -1,25 +1,42 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import HomePage from './routes/HomePage';
 import FormPage from './routes/FormPage';
 import LogbookPage from './routes/LogbookPage';
 import EditPage from './routes/Editpage';
 import { nanoid } from 'nanoid';
 import { useLocalStorage } from 'usehooks-ts';
+import { useState } from 'react';
 
 export default function App() {
   const [logEntries, setLogEntries] = useLocalStorage('logEntries', []);
+  const [entryToEdit, setEntryToEdit] = useState(null);
+
+  const sortedEntries = logEntries ? [...logEntries].reverse() : null;
+  const navigate = useNavigate();
 
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/create" element={<FormPage onEntry={handleLogEntry} />} />
+      <Route
+        path="/create"
+        element={<FormPage onSubmitEntry={handleEntry} />}
+      />
       <Route
         path="/logbook"
         element={
-          <LogbookPage logEntries={logEntries} onDelete={handleDelete} />
+          <LogbookPage
+            onDeleteConfirm={handleDelete}
+            onEditEntry={handleEditRedirect}
+            sortedEntries={sortedEntries}
+          />
         }
       />
-      <Route path="/edit" element={<EditPage onSubmit={handleLogEntry} />} />
+      <Route
+        path="/edit"
+        element={
+          <EditPage onEditEntry={handleEditEntry} onEntryToEdit={entryToEdit} />
+        }
+      />
       <Route
         path="/*"
         element={
@@ -31,19 +48,69 @@ export default function App() {
     </Routes>
   );
 
-  function handleLogEntry(formData, image) {
+  function handleEntry({
+    tripDate,
+    boatName,
+    crewNames,
+    windSpeed,
+    windUnit,
+    windDirection,
+    waveHeight,
+    waveUnit,
+    notes,
+    image,
+  }) {
     const newEntry = {
-      boatName: formData.boatName,
-      crewNames: formData.crewNames,
-      windSpeed: formData.windSpeed,
-      windDirection: formData.windDirection,
-      waveHeight: formData.waveHeight,
-      notes: formData.notes,
+      tripDate: tripDate,
+      boatName: boatName,
+      crewNames: crewNames,
+      windSpeed: windSpeed,
+      windUnit: windUnit,
+      windDirection: windDirection,
+      waveHeight: waveHeight,
+      waveUnit: waveUnit,
+      notes: notes,
       image: image,
       _id: nanoid(),
     };
     setLogEntries([...logEntries, newEntry]);
   }
+
+  function handleEditEntry({
+    tripDate,
+    boatName,
+    crewNames,
+    windSpeed,
+    windUnit,
+    windDirection,
+    waveHeight,
+    waveUnit,
+    notes,
+    image,
+  }) {
+    const editedEntry = {
+      _id: entryToEdit._id,
+      entry: {
+        tripDate: tripDate,
+        boatName: boatName,
+        crewNames: crewNames,
+        windSpeed: windSpeed,
+        windUnit: windUnit,
+        windDirection: windDirection,
+        waveHeight: waveHeight,
+        waveUnit: waveUnit,
+        notes: notes,
+        image: image,
+      },
+    };
+    setLogEntries([...logEntries, editedEntry]);
+  }
+
+  function handleEditRedirect(entry) {
+    setEntryToEdit({ ...entry });
+    navigate('/edit');
+  }
+
   function handleDelete(id) {
     setLogEntries(logEntries.filter(entry => entry._id !== id));
   }

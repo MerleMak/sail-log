@@ -8,41 +8,65 @@ import { Header } from '../styled-components/Header';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-export default function LogForm({ header, preloadedValues, handleEntry }) {
-  const [tripDate, setTripDate] = useState('');
-  const [boatName, setBoatName] = useState('');
-  const [crewNames, setCrewNames] = useState('');
-  const [windSpeed, setWindSpeed] = useState('');
-  const [windDirection, setWindDirection] = useState('');
-  const [waveHeight, setWaveHeight] = useState('');
-  const [notes, setNotes] = useState('');
-  const [image, setImage] = useState('');
+export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
+  const navigate = useNavigate();
+  const [tripDate, setTripDate] = useState(
+    preloadedValues?.tripDate ? preloadedValues?.tripDate : ''
+  );
+
+  const [boatName, setBoatName] = useState(
+    preloadedValues?.boatName ? preloadedValues?.boatName : ''
+  );
+  console.log(preloadedValues.boatName);
+
+  const [crewNames, setCrewNames] = useState(
+    preloadedValues?.crewNames ? preloadedValues?.crewNames : ''
+  );
+  const [windSpeed, setWindSpeed] = useState(
+    preloadedValues?.windSpeed ? preloadedValues?.windSpeed : ''
+  );
+  const [windUnit, setWindUnit] = useState(
+    preloadedValues?.windUnit ? preloadedValues?.windUnit : ''
+  );
+  const [windDirection, setWindDirection] = useState(
+    preloadedValues?.windDirection ? preloadedValues?.windDirection : ''
+  );
+  const [waveHeight, setWaveHeight] = useState(
+    preloadedValues?.waveHeight ? preloadedValues?.waveHeight : ''
+  );
+  const [waveUnit, setWaveUnit] = useState(
+    preloadedValues?.waveUnit ? preloadedValues?.waveUnit : ''
+  );
+  const [notes, setNotes] = useState(
+    preloadedValues?.notes ? preloadedValues?.notes : ''
+  );
+  const [image, setImage] = useState(
+    preloadedValues?.image ? preloadedValues?.image : ''
+  );
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(0);
-  const navigate = useNavigate();
 
   const {
     register,
-    handleSubmit,
-    trigger,
     formState: { errors },
   } = useForm({
     mode: 'all',
     defaultValues: preloadedValues
       ? {
-          tripDate: new Date(preloadedValues.tripDate)
-            .toISOString()
-            .split('T')[0],
+          tripDate: preloadedValues.tripDate,
           boatName: preloadedValues.boatName,
           crewNames: preloadedValues.crewNames,
           windSpeed: preloadedValues.windSpeed,
+          windUnit: preloadedValues.windUnit,
           windDirection: preloadedValues.windDirection,
           waveHeight: preloadedValues.waveHeight,
+          waveUnit: preloadedValues.waveUnit,
           notes: preloadedValues.notes,
           image: preloadedValues.image,
         }
@@ -51,19 +75,17 @@ export default function LogForm({ header, preloadedValues, handleEntry }) {
           boatName: '',
           crewNames: '',
           windSpeed: '',
+          windUnit: 'kn',
           windDirection: '',
           waveHeight: '',
+          waveUnit: 'm',
           notes: '',
           image: '',
         },
   });
 
   return (
-    <Form
-      autoComplete="off"
-      aria-labelledby="header"
-      onSubmit={handleSubmit(post => onSubmit(post))}
-    >
+    <Form autoComplete="off" aria-labelledby="header" onSubmit={onSubmit}>
       <FormHeader id="header">{header}</FormHeader>
 
       <Container>
@@ -114,10 +136,13 @@ export default function LogForm({ header, preloadedValues, handleEntry }) {
             setWindSpeed(event.target.value);
           }}
         />
-        <Select {...register('windUnit')}>
-          <option selected value="Bft">
-            Beaufort
-          </option>
+        <Select
+          {...register('windUnit')}
+          onChange={event => {
+            setWindUnit(event.target.value);
+          }}
+        >
+          <option value="Bft">Beaufort</option>
           <option value="m/s">m/s</option>
           <option value="km/h">km/h</option>
           <option value="kn">kn</option>
@@ -135,9 +160,7 @@ export default function LogForm({ header, preloadedValues, handleEntry }) {
             setWindDirection(event.target.value);
           }}
         >
-          <option selected value="N">
-            N
-          </option>
+          <option value="N">N</option>
           <option value="NE">NE</option>
           <option value="E">E</option>
           <option value="SE">SE</option>
@@ -158,13 +181,17 @@ export default function LogForm({ header, preloadedValues, handleEntry }) {
             setWaveHeight(event.target.value);
           }}
         />
-        <Select {...register('WaveUnit')}>
-          <option selected value="m">
-            m
-          </option>
-          <option value="m/s">cm</option>
-          <option value="m">ft</option>
-          <option value="m/s">inch</option>
+
+        <Select
+          {...register('WaveUnit')}
+          onChange={event => {
+            setWaveUnit(event.target.value);
+          }}
+        >
+          <option value="m">m</option>
+          <option value="cm">cm</option>
+          <option value="ft">ft</option>
+          <option value="inch">inch</option>
         </Select>
       </SelectContainer>
 
@@ -218,13 +245,7 @@ export default function LogForm({ header, preloadedValues, handleEntry }) {
         )}
       </ImageUpload>
 
-      <SaveButton
-        type="submit"
-        variant="save"
-        onClick={async () => {
-          const formData = await trigger(['tripDate', 'boatName']);
-        }}
-      >
+      <SaveButton type="submit" variant="save">
         Save to logbook
       </SaveButton>
     </Form>
@@ -263,16 +284,19 @@ export default function LogForm({ header, preloadedValues, handleEntry }) {
     setProcess(0);
     setLoading(false);
   }
-  function onSubmit(post) {
-    handleEntry({
-      tripDate: post.tripDate,
-      boatName: post.beatName,
-      crewNames: post.crewNames,
-      windSpeed: post.windSpeed,
-      windDirection: post.windDirection,
-      waveHeight: post.waveHeight,
-      notes: post.notes,
-      image: post.image,
+
+  function onSubmit() {
+    onSubmitEntry({
+      tripDate: tripDate,
+      boatName: boatName,
+      crewNames: crewNames,
+      windSpeed: windSpeed,
+      windUnit: windUnit,
+      windDirection: windDirection,
+      waveHeight: waveHeight,
+      waveUnit: waveUnit,
+      notes: notes,
+      image: image,
     });
     navigate('../logbook');
   }

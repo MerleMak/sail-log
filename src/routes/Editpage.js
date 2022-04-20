@@ -6,7 +6,7 @@ import { GrRevert } from 'react-icons/gr';
 import { IconContext } from 'react-icons';
 import Button from '../components/Button/Button';
 
-export default function EditPage({ onEditEntry, entryToEdit }) {
+export default function EditPage({ onEditEntry, onEntryToEdit }) {
   const navigate = useNavigate();
   return (
     <Wrapper>
@@ -22,8 +22,8 @@ export default function EditPage({ onEditEntry, entryToEdit }) {
       </AbortButton>
       <LogForm
         header="Edit your log entry"
-        handleEntry={onEditEntry}
-        preloadedValues={entryToEdit}
+        preloadedValues={onEntryToEdit}
+        onSubmitEntry={onEditEntry}
       />
       <Navigation />
     </Wrapper>
@@ -39,7 +39,9 @@ const Wrapper = styled.div`
 
 const AbortButton = styled(Button)`
   position: absolute;
-  padding: 10px;
-  bottom: 75px;
-  right: 13px;
+  padding: 10px 10px 7px 10px;
+  top: 75px;
+  right: 20px;
+  border-radius: 10px;
+  z-index: 1;
 `;

@@ -7,12 +7,16 @@ import { GiShoonerSailboat } from 'react-icons/gi';
 import { IconContext } from 'react-icons';
 import Modal from 'react-modal';
 
-export default function LogbookPage({ logEntries, onDelete }) {
+export default function LogbookPage({
+  sortedEntries,
+  onDeleteConfirm,
+  onEditEntry,
+}) {
   const [showModal, setShowModal] = useState(false);
   const [currentId, setCurrentId] = useState('');
   return (
     <Wrapper>
-      {logEntries.length === 0 ? (
+      {sortedEntries.length === 0 ? (
         <EmptyState>
           <p>No entries yet.. time to go sailing!</p>
           <IconContext.Provider value={{ size: '10rem' }}>
@@ -21,7 +25,11 @@ export default function LogbookPage({ logEntries, onDelete }) {
         </EmptyState>
       ) : (
         <LogEntryListWrapper>
-          <LogEntryList logEntries={logEntries} onClick={handleOpenModal} />
+          <LogEntryList
+            sortedEntries={sortedEntries}
+            onDelete={handleOpenModal}
+            onEdit={onEditEntry}
+          />
           <Modal
             isOpen={showModal}
             closeTImeoutMS={0}
@@ -75,7 +83,7 @@ export default function LogbookPage({ logEntries, onDelete }) {
     setCurrentId(_id);
   }
   function handleConfirmDelete() {
-    onDelete(currentId);
+    onDeleteConfirm(currentId);
     setShowModal(false);
   }
 }
