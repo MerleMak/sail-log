@@ -1,41 +1,93 @@
 import styled from 'styled-components';
 import { GrTrash } from 'react-icons/gr';
+import { GrEdit } from 'react-icons/gr';
 import { IconContext } from 'react-icons';
 import Button from '../Button/Button';
 
-export default function LogEntry({ entry, onClick }) {
+export default function LogEntry({
+  tripDate,
+  boatName,
+  crewNames,
+  windSpeed,
+  windUnit,
+  windDirection,
+  waveHeight,
+  waveUnit,
+  notes,
+  image,
+  onEdit,
+  onDelete,
+}) {
   return (
     <Card>
       <Input>
-        sail trip on <Highlight>{entry.boatName}</Highlight>
+        my sail trip on <Highlight>{boatName}</Highlight> on the
+        <Highlight>{tripDate}</Highlight>
       </Input>
-      <Input>
-        with <Highlight>{entry.crewNames}</Highlight>
-      </Input>
-      <Input>
-        the speed of wind was
-        <Highlight>{entry.windSpeed}</Highlight>
-      </Input>
-      <Input>
-        the wind came from <Highlight>{entry.windDirection}</Highlight>
-      </Input>
-      <Input>
-        the wave height was <Highlight>{entry.waveHeight}</Highlight>
-      </Input>
-      <Textarea>
-        <Highlight>"{entry.notes}"</Highlight>
-      </Textarea>
-      <UploadedImage src={entry.image} alt=""></UploadedImage>
+
+      {crewNames ? (
+        <Input>
+          with <Highlight>{crewNames}</Highlight>
+        </Input>
+      ) : (
+        ''
+      )}
+      {windSpeed ? (
+        <Input>
+          the speed of wind was
+          <Highlight>
+            {windSpeed} {windUnit}
+          </Highlight>
+        </Input>
+      ) : (
+        ''
+      )}
+      {windDirection ? (
+        <Input>
+          the wind came from <Highlight>{windDirection}</Highlight>
+        </Input>
+      ) : (
+        ''
+      )}
+      {waveHeight ? (
+        <Input>
+          the wave height was{' '}
+          <Highlight>
+            {waveHeight} {waveUnit}
+          </Highlight>
+        </Input>
+      ) : (
+        ''
+      )}
+      {notes ? (
+        <Textarea>
+          <Highlight>"{notes}"</Highlight>
+        </Textarea>
+      ) : (
+        ''
+      )}
+      {image ? <UploadedImage src={image} alt=""></UploadedImage> : ''}
+
       <Button
         type="button"
         variant="invisible"
-        onClick={onClick}
+        onClick={onDelete}
         aria-label="Delete this log entry"
       >
         <IconContext.Provider value={{ stroke: 'white' }}>
           <GrTrash />
         </IconContext.Provider>
       </Button>
+      <EditButton
+        type="button"
+        variant="invisible"
+        onClick={onEdit}
+        aria-label="Edit this log entry"
+      >
+        <IconContext.Provider value={{ stroke: 'white' }}>
+          <GrEdit />
+        </IconContext.Provider>
+      </EditButton>
     </Card>
   );
 }
@@ -69,4 +121,9 @@ const UploadedImage = styled.img`
   border-radius: 10px;
   box-shadow: 3px 3px 3px;
   margin-left: -1px;
+`;
+
+const EditButton = styled(Button)`
+  position: absolute;
+  top: 50px;
 `;
