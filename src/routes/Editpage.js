@@ -6,7 +6,8 @@ import { GrRevert } from 'react-icons/gr';
 import { IconContext } from 'react-icons';
 import Button from '../components/Button/Button';
 
-export default function EditPage({ onEditEntry, onEntryToEdit }) {
+export default function EditPage({ onEditEntry, entryToEdit }) {
+  console.log(entryToEdit);
   const navigate = useNavigate();
   return (
     <Wrapper>
@@ -22,7 +23,7 @@ export default function EditPage({ onEditEntry, onEntryToEdit }) {
       </AbortButton>
       <LogForm
         header="Edit your log entry"
-        preloadedValues={onEntryToEdit}
+        preloadedValues={entryToEdit}
         onSubmitEntry={onEditEntry}
       />
       <Navigation />

@@ -23,8 +23,6 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
   const [boatName, setBoatName] = useState(
     preloadedValues?.boatName ? preloadedValues?.boatName : ''
   );
-  console.log(preloadedValues.boatName);
-
   const [crewNames, setCrewNames] = useState(
     preloadedValues?.crewNames ? preloadedValues?.crewNames : ''
   );

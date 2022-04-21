@@ -34,7 +34,7 @@ export default function App() {
       <Route
         path="/edit"
         element={
-          <EditPage onEditEntry={handleEditEntry} onEntryToEdit={entryToEdit} />
+          <EditPage onEditEntry={handleEditEntry} entryToEdit={entryToEdit} />
         }
       />
       <Route
