@@ -16,37 +16,16 @@ const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
 export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
   const navigate = useNavigate();
-  const [tripDate, setTripDate] = useState(
-    preloadedValues?.tripDate ? preloadedValues?.tripDate : ''
-  );
-
-  const [boatName, setBoatName] = useState(
-    preloadedValues?.boatName ? preloadedValues?.boatName : ''
-  );
-  const [crewNames, setCrewNames] = useState(
-    preloadedValues?.crewNames ? preloadedValues?.crewNames : ''
-  );
-  const [windSpeed, setWindSpeed] = useState(
-    preloadedValues?.windSpeed ? preloadedValues?.windSpeed : ''
-  );
-  const [windUnit, setWindUnit] = useState(
-    preloadedValues?.windUnit ? preloadedValues?.windUnit : ''
-  );
-  const [windDirection, setWindDirection] = useState(
-    preloadedValues?.windDirection ? preloadedValues?.windDirection : ''
-  );
-  const [waveHeight, setWaveHeight] = useState(
-    preloadedValues?.waveHeight ? preloadedValues?.waveHeight : ''
-  );
-  const [waveUnit, setWaveUnit] = useState(
-    preloadedValues?.waveUnit ? preloadedValues?.waveUnit : ''
-  );
-  const [notes, setNotes] = useState(
-    preloadedValues?.notes ? preloadedValues?.notes : ''
-  );
-  const [image, setImage] = useState(
-    preloadedValues?.image ? preloadedValues?.image : ''
-  );
+  const [tripDate, setTripDate] = useState();
+  const [boatName, setBoatName] = useState();
+  const [crewNames, setCrewNames] = useState();
+  const [windSpeed, setWindSpeed] = useState();
+  const [windUnit, setWindUnit] = useState();
+  const [windDirection, setWindDirection] = useState();
+  const [waveHeight, setWaveHeight] = useState();
+  const [waveUnit, setWaveUnit] = useState();
+  const [notes, setNotes] = useState();
+  const [image, setImage] = useState();
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(0);
 
