@@ -255,7 +255,7 @@ const Form = styled.form`
 `;
 const FormHeader = styled(Header)`
   width: auto;
-  font-size: 28px;
+  font-size: 30px;
 `;
 
 const Container = styled.div`

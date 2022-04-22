@@ -21,7 +21,7 @@ export default function EditPage({ onEditEntry, entryToEdit }) {
         </IconContext.Provider>
       </AbortButton>
       <LogForm
-        header="Edit your log entry"
+        header="edit your log entry"
         preloadedValues={entryToEdit}
         onSubmitEntry={onEditEntry}
       />

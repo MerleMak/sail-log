@@ -8,13 +8,13 @@ import { GiShoonerSailboat } from 'react-icons/gi';
 export default function HomePage() {
   return (
     <HomePageWrapper>
-      <Header>sail log</Header>
+      <HomeHeader>sail log</HomeHeader>
       <IconContext.Provider value={{ size: '10rem' }}>
         <Icon />
       </IconContext.Provider>
       <NavWrapper>
         <Button variant="navigate">
-          <Link to="/create">create new log entry</Link>
+          <Link to="/create">create a new log entry</Link>
         </Button>
         <Button variant="navigate">
           <Link to="/logbook">go to logbook</Link>
@@ -27,6 +27,10 @@ export default function HomePage() {
 const HomePageWrapper = styled.div`
   display: grid;
   justify-items: center;
+`;
+
+const HomeHeader = styled(Header)`
+  font-size: 3.5rem;
 `;
 
 const NavWrapper = styled.div`

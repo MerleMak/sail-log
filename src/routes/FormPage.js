@@ -5,7 +5,7 @@ import Navigation from '../components/Navigation/Navigation';
 export default function FormPage({ onSubmitEntry, onSubmitImage }) {
   return (
     <Wrapper>
-      <LogForm header="Create a new log entry" onSubmitEntry={onSubmitEntry} />
+      <LogForm header="create a new log entry" onSubmitEntry={onSubmitEntry} />
       <Navigation />
     </Wrapper>
   );
