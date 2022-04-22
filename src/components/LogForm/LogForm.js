@@ -156,7 +156,7 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
           name="notes"
           id="notes"
           rows={6}
-          {...register('notes', { maxLength: 4 })}
+          {...register('notes', { maxLength: 250 })}
         ></Textarea>
       </Container>
 

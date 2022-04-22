@@ -67,8 +67,8 @@ export default function App() {
   }
 
   function handleEditEntry(data, image) {
-    const editedEntry = logEntries.map(entry =>
-      entry._id === entryToEdit.id
+    const newLogEntries = logEntries.map(entry =>
+      entry._id === entryToEdit._id
         ? {
             ...entry,
             tripDate: data.tripDate,
@@ -84,7 +84,7 @@ export default function App() {
           }
         : entry
     );
-    setLogEntries({ ...logEntries, editedEntry });
+    setLogEntries(newLogEntries);
   }
 
   function handleEditRedirect(entry) {
