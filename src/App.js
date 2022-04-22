@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 export default function App() {
   const [logEntries, setLogEntries] = useLocalStorage('logEntries', []);
+  console.log(logEntries);
   const [entryToEdit, setEntryToEdit] = useState(null);
 
   const sortedEntries = logEntries ? [...logEntries].reverse() : null;
@@ -48,62 +49,42 @@ export default function App() {
     </Routes>
   );
 
-  function handleEntry({
-    tripDate,
-    boatName,
-    crewNames,
-    windSpeed,
-    windUnit,
-    windDirection,
-    waveHeight,
-    waveUnit,
-    notes,
-    image,
-  }) {
+  function handleEntry(data, image) {
     const newEntry = {
-      tripDate: tripDate,
-      boatName: boatName,
-      crewNames: crewNames,
-      windSpeed: windSpeed,
-      windUnit: windUnit,
-      windDirection: windDirection,
-      waveHeight: waveHeight,
-      waveUnit: waveUnit,
-      notes: notes,
+      tripDate: data.tripDate,
+      boatName: data.boatName,
+      crewNames: data.crewNames,
+      windSpeed: data.windSpeed,
+      windUnit: data.windUnit,
+      windDirection: data.windDirection,
+      waveHeight: data.waveHeight,
+      waveUnit: data.waveUnit,
+      notes: data.notes,
       image: image,
       _id: nanoid(),
     };
     setLogEntries([...logEntries, newEntry]);
   }
 
-  function handleEditEntry({
-    tripDate,
-    boatName,
-    crewNames,
-    windSpeed,
-    windUnit,
-    windDirection,
-    waveHeight,
-    waveUnit,
-    notes,
-    image,
-  }) {
-    const editedEntry = {
-      _id: entryToEdit._id,
-      entry: {
-        tripDate: tripDate,
-        boatName: boatName,
-        crewNames: crewNames,
-        windSpeed: windSpeed,
-        windUnit: windUnit,
-        windDirection: windDirection,
-        waveHeight: waveHeight,
-        waveUnit: waveUnit,
-        notes: notes,
-        image: image,
-      },
-    };
-    setLogEntries([...logEntries, editedEntry]);
+  function handleEditEntry(data, image) {
+    const editedEntry = logEntries.map(entry =>
+      entry._id === entryToEdit.id
+        ? {
+            ...entry,
+            tripDate: data.tripDate,
+            boatName: data.boatName,
+            crewNames: data.crewNames,
+            windSpeed: data.windSpeed,
+            windUnit: data.windUnit,
+            windDirection: data.windDirection,
+            waveHeight: data.waveHeight,
+            waveUnit: data.waveUnit,
+            notes: data.notes,
+            image: image,
+          }
+        : entry
+    );
+    setLogEntries({ ...logEntries, editedEntry });
   }
 
   function handleEditRedirect(entry) {

@@ -7,7 +7,6 @@ import { IconContext } from 'react-icons';
 import Button from '../components/Button/Button';
 
 export default function EditPage({ onEditEntry, entryToEdit }) {
-  console.log(entryToEdit);
   const navigate = useNavigate();
   return (
     <Wrapper>

@@ -12,7 +12,6 @@ export default function LogTextarea({
       <TextareaHint id="instruction">{textareaHint}</TextareaHint>
       <Textarea
         aria-describedby="instruction"
-        rows={6}
         id={name}
         name={name}
         onChange={onChange}

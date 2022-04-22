@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import LogInput from '../LogInput/LogInput';
-import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
 import { GrTrash } from 'react-icons/gr';
 import { IconContext } from 'react-icons';
@@ -16,22 +14,15 @@ const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
 export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
   const navigate = useNavigate();
-  const [tripDate, setTripDate] = useState();
-  const [boatName, setBoatName] = useState();
-  const [crewNames, setCrewNames] = useState();
-  const [windSpeed, setWindSpeed] = useState();
-  const [windUnit, setWindUnit] = useState();
-  const [windDirection, setWindDirection] = useState();
-  const [waveHeight, setWaveHeight] = useState();
-  const [waveUnit, setWaveUnit] = useState();
-  const [notes, setNotes] = useState();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState(
+    preloadedValues?.image ? preloadedValues?.image : ''
+  );
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(0);
-
   const {
     register,
     formState: { errors },
+    handleSubmit,
   } = useForm({
     mode: 'all',
     defaultValues: preloadedValues
@@ -60,65 +51,60 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
           image: '',
         },
   });
-
   return (
-    <Form autoComplete="off" aria-labelledby="header" onSubmit={onSubmit}>
+    <Form
+      autoComplete="off"
+      aria-labelledby="header"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <FormHeader id="header">{header}</FormHeader>
 
       <Container>
-        <LogInput
+        <Label htmlFor="tripDate">date of the trip</Label>
+        <InputHint id="instruction">- Select the date of this trip -</InputHint>
+        <LInput
+          aria-describedby="instruction"
           name="tripDate"
+          id="tripDate"
           {...register('tripDate', { required: true })}
           type="date"
-          labelText="date of the trip"
-          inputHint="- Select the date of this trip -"
-          onChange={event => {
-            setTripDate(event.target.value);
-          }}
         />
       </Container>
 
       <Container>
-        <LogInput
+        <Label htmlFor="boatName">name of the boat</Label>
+        <LInput
           name="boatName"
+          id="boatName"
           {...register('boatName', { required: true, maxLength: 40 })}
           type="text"
-          labelText="name of the boat"
-          onChange={event => {
-            setBoatName(event.target.value);
-          }}
         />
       </Container>
 
       <Container>
-        <LogInput
+        <Label htmlFor="crewNames">names of the crew</Label>
+        <InputHint id="instruction">
+          - type in the names separated by comma -
+        </InputHint>
+        <LInput
+          aria-describedby="instruction"
           name="crewNames"
+          id="crewNames"
           {...register('crewNames', { maxLength: 100 })}
           type="text"
-          labelText="names of the crew"
-          inputHint="- type in the names separated by a comma -"
-          onChange={event => {
-            setCrewNames(event.target.value);
-          }}
         />
       </Container>
 
       <SelectContainer>
-        <Input
+        <Label htmlFor="windSpeed">speed of wind</Label>
+        <SelectInput
           name="windSpeed"
+          id="windSpeed"
           {...register('windSpeed', { maxLength: 5 })}
           type="text"
           labelText="speed of wind"
-          onChange={event => {
-            setWindSpeed(event.target.value);
-          }}
         />
-        <Select
-          {...register('windUnit')}
-          onChange={event => {
-            setWindUnit(event.target.value);
-          }}
-        >
+        <Select name="windUnit" {...register('windUnit')}>
           <option value="Bft">Beaufort</option>
           <option value="m/s">m/s</option>
           <option value="km/h">km/h</option>
@@ -133,9 +119,6 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
           {...register('windDirection', { maxLength: 4 })}
           id="windDirections"
           name="windDirection"
-          onChange={event => {
-            setWindDirection(event.target.value);
-          }}
         >
           <option value="N">N</option>
           <option value="NE">NE</option>
@@ -149,45 +132,40 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
       </Container>
 
       <SelectContainer>
-        <Input
+        <Label htmlFor="waveHeight">height of waves</Label>
+        <SelectInput
           name="waveHeight"
-          {...register('waveHeight', { maxLength: 4 })}
+          id="waveHeight"
+          {...register('waveHeight')}
           type="text"
-          labelText="height of waves"
-          onChange={event => {
-            setWaveHeight(event.target.value);
-          }}
         />
-
-        <Select
-          {...register('WaveUnit')}
-          onChange={event => {
-            setWaveUnit(event.target.value);
-          }}
-        >
-          <option value="m">m</option>
-          <option value="cm">cm</option>
-          <option value="ft">ft</option>
-          <option value="inch">inch</option>
+        <Select name="waveUnit" {...register('WaveUnit')}>
+          <Option value="m">m</Option>
+          <Option value="cm">cm</Option>
+          <Option value="ft">ft</Option>
+          <Option value="inch">inch</Option>
         </Select>
       </SelectContainer>
 
       <Container>
-        <LogTextarea
+        <Label htmlFor="notes">notes</Label>
+        <InputHint id="instruction">
+          - type additional information about your trip -
+        </InputHint>
+        <Textarea
           name="notes"
-          {...register('waveHeight', { maxLength: 4 })}
-          labelText="notes"
-          textareaHint="- type additional information to your trip -"
-          onChange={event => {
-            setNotes(event.target.value);
-          }}
-        ></LogTextarea>
+          id="notes"
+          rows={6}
+          {...register('notes', { maxLength: 4 })}
+        ></Textarea>
       </Container>
+
       <ImageUpload>
         <label htmlFor="file">upload a picture of your trip</label>
         {loading && (
           <UploadProgress>uploading image...{process}%</UploadProgress>
         )}
+
         {image ? (
           <Preview>
             <DeleteButton
@@ -208,6 +186,8 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
                 width: '96%',
                 margin: '2%',
               }}
+              name="image"
+              {...register('image')}
             />
           </Preview>
         ) : (
@@ -217,7 +197,6 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
             id="file"
             aria-label="upload-your-picture"
             onChange={upload}
-            multiple="multiple"
           />
         )}
       </ImageUpload>
@@ -262,19 +241,8 @@ export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
     setLoading(false);
   }
 
-  function onSubmit() {
-    onSubmitEntry({
-      tripDate: tripDate,
-      boatName: boatName,
-      crewNames: crewNames,
-      windSpeed: windSpeed,
-      windUnit: windUnit,
-      windDirection: windDirection,
-      waveHeight: waveHeight,
-      waveUnit: waveUnit,
-      notes: notes,
-      image: image,
-    });
+  function onSubmit(data) {
+    onSubmitEntry(data, image);
     navigate('../logbook');
   }
 }
@@ -287,7 +255,7 @@ const Form = styled.form`
 `;
 const FormHeader = styled(Header)`
   width: auto;
-  font-size: 32px;
+  font-size: 28px;
 `;
 
 const Container = styled.div`
@@ -309,13 +277,8 @@ const SelectContainer = styled.div`
   border-radius: 20px;
   display: grid;
   grid-template-columns: 2;
-  grid-template-rows: 3;
+  grid-template-rows: 2;
   gap: 2px;
-`;
-
-const Input = styled(LogInput)`
-  border: none;
-  width: 90%;
 `;
 
 const Select = styled.select`
@@ -326,6 +289,20 @@ const Select = styled.select`
   font-family: Raleway;
   font-size: 1rem;
   grid-column: 2/3;
+  grid-row: 2/3;
+  position: relative;
+`;
+const Option = styled.option`
+  position: absolute;
+  top: 100px;
+`;
+
+const SelectInput = styled.input`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
+  grid-column: 1/2;
 `;
 
 const Label = styled.label`
@@ -392,4 +369,23 @@ const SaveButton = styled(Button)`
   width: fit-content;
   align-self: center;
   margin: 15px;
+`;
+
+const InputHint = styled.p`
+  font-size: 0.9rem;
+  margin: 5px;
+`;
+
+const LInput = styled.input`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
+`;
+
+const Textarea = styled.textarea`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
 `;

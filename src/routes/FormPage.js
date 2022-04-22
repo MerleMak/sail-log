@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import LogForm from '../components/LogForm/LogForm';
 import Navigation from '../components/Navigation/Navigation';
 
-export default function FormPage({ onSubmitEntry }) {
+export default function FormPage({ onSubmitEntry, onSubmitImage }) {
   return (
     <Wrapper>
       <LogForm header="Create a new log entry" onSubmitEntry={onSubmitEntry} />
