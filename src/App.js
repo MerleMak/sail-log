@@ -9,7 +9,6 @@ import { useState } from 'react';
 
 export default function App() {
   const [logEntries, setLogEntries] = useLocalStorage('logEntries', []);
-  console.log(logEntries);
   const [entryToEdit, setEntryToEdit] = useState(null);
 
   const sortedEntries = logEntries ? [...logEntries].reverse() : null;
