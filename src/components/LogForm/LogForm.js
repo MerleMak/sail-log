@@ -1,31 +1,211 @@
 import styled from 'styled-components';
-import LogInput from '../LogInput/LogInput';
-import LogTextarea from '../LogTextarea/LogTextarea';
 import Button from '../Button/Button';
 import { GrTrash } from 'react-icons/gr';
 import { IconContext } from 'react-icons';
 import { Header } from '../styled-components/Header';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 
 const CLOUDNAME = process.env.REACT_APP_CLOUDINARY_CLOUDNAME;
 const PRESET = process.env.REACT_APP_CLOUDINARY_PRESET;
 
-export default function LogForm({ onSubmit }) {
-  const [formData, setFormData] = useState({});
-  const [image, setImage] = useState('');
+export default function LogForm({ header, preloadedValues, onSubmitEntry }) {
+  const navigate = useNavigate();
+  const [image, setImage] = useState(
+    preloadedValues?.image ? preloadedValues?.image : ''
+  );
   const [loading, setLoading] = useState(false);
   const [process, setProcess] = useState(0);
-  const navigate = useNavigate();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    mode: 'all',
+    defaultValues: preloadedValues
+      ? {
+          tripDate: preloadedValues.tripDate,
+          boatName: preloadedValues.boatName,
+          crewNames: preloadedValues.crewNames,
+          windSpeed: preloadedValues.windSpeed,
+          windUnit: preloadedValues.windUnit,
+          windDirection: preloadedValues.windDirection,
+          waveHeight: preloadedValues.waveHeight,
+          waveUnit: preloadedValues.waveUnit,
+          notes: preloadedValues.notes,
+          image: preloadedValues.image,
+        }
+      : {
+          tripDate: '',
+          boatName: '',
+          crewNames: '',
+          windSpeed: '',
+          windUnit: 'kn',
+          windDirection: '',
+          waveHeight: '',
+          waveUnit: 'm',
+          notes: '',
+          image: '',
+        },
+  });
+  return (
+    <Form
+      autoComplete="off"
+      aria-labelledby="header"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <FormHeader id="header">{header}</FormHeader>
 
-  function handleOnChange(event) {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
+      <Container>
+        <Label htmlFor="tripDate">date of the trip</Label>
+        <InputHint id="instruction">- Select the date of this trip -</InputHint>
+        <LInput
+          aria-describedby="instruction"
+          name="tripDate"
+          id="tripDate"
+          {...register('tripDate', { required: true })}
+          type="date"
+        />
+      </Container>
+
+      <Container>
+        <Label htmlFor="boatName">name of the boat</Label>
+        <LInput
+          name="boatName"
+          id="boatName"
+          {...register('boatName', { required: true, maxLength: 40 })}
+          type="text"
+        />
+      </Container>
+
+      <Container>
+        <Label htmlFor="crewNames">names of the crew</Label>
+        <InputHint id="instruction">
+          - type in the names separated by comma -
+        </InputHint>
+        <LInput
+          aria-describedby="instruction"
+          name="crewNames"
+          id="crewNames"
+          {...register('crewNames', { maxLength: 100 })}
+          type="text"
+        />
+      </Container>
+
+      <SelectContainer>
+        <Label htmlFor="windSpeed">speed of wind</Label>
+        <SelectInput
+          name="windSpeed"
+          id="windSpeed"
+          {...register('windSpeed', { maxLength: 5 })}
+          type="text"
+          labelText="speed of wind"
+        />
+        <Select name="windUnit" {...register('windUnit')}>
+          <option value="Bft">Beaufort</option>
+          <option value="m/s">m/s</option>
+          <option value="km/h">km/h</option>
+          <option value="kn">kn</option>
+          <option value="mph">mph</option>
+        </Select>
+      </SelectContainer>
+
+      <Container>
+        <Label htmlFor="windDirection">direction of wind</Label>
+        <Select
+          {...register('windDirection', { maxLength: 4 })}
+          id="windDirections"
+          name="windDirection"
+        >
+          <option value="N">N</option>
+          <option value="NE">NE</option>
+          <option value="E">E</option>
+          <option value="SE">SE</option>
+          <option value="S">S</option>
+          <option value="SW">SW</option>
+          <option value="W">W</option>
+          <option value="NW">NW</option>
+        </Select>
+      </Container>
+
+      <SelectContainer>
+        <Label htmlFor="waveHeight">height of waves</Label>
+        <SelectInput
+          name="waveHeight"
+          id="waveHeight"
+          {...register('waveHeight')}
+          type="text"
+        />
+        <Select name="waveUnit" {...register('WaveUnit')}>
+          <Option value="m">m</Option>
+          <Option value="cm">cm</Option>
+          <Option value="ft">ft</Option>
+          <Option value="inch">inch</Option>
+        </Select>
+      </SelectContainer>
+
+      <Container>
+        <Label htmlFor="notes">notes</Label>
+        <InputHint id="instruction">
+          - type additional information about your trip -
+        </InputHint>
+        <Textarea
+          name="notes"
+          id="notes"
+          rows={6}
+          {...register('notes', { maxLength: 250 })}
+        ></Textarea>
+      </Container>
+
+      <ImageUpload>
+        <label htmlFor="file">upload a picture of your trip</label>
+        {loading && (
+          <UploadProgress>uploading image...{process}%</UploadProgress>
+        )}
+
+        {image ? (
+          <Preview>
+            <DeleteButton
+              type="button"
+              variant="deny"
+              onClick={handleRemoveImage}
+              aria-label="Remove this image from the entry"
+            >
+              <IconContext.Provider value={{ stroke: 'white' }}>
+                <GrTrash />
+              </IconContext.Provider>
+            </DeleteButton>
+
+            <img
+              src={image}
+              alt="your sailing trip"
+              style={{
+                width: '96%',
+                margin: '2%',
+              }}
+              name="image"
+              {...register('image')}
+            />
+          </Preview>
+        ) : (
+          <input
+            type="file"
+            name="file"
+            id="file"
+            aria-label="upload-your-picture"
+            onChange={upload}
+          />
+        )}
+      </ImageUpload>
+
+      <SaveButton type="submit" variant="save">
+        Save to logbook
+      </SaveButton>
+    </Form>
+  );
 
   function upload(event) {
     const url = `https://api.cloudinary.com/v1_1/${CLOUDNAME}/upload`;
@@ -61,103 +241,10 @@ export default function LogForm({ onSubmit }) {
     setLoading(false);
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const form = event.target;
-    onSubmit(formData, image);
-    form.reset();
+  function onSubmit(data) {
+    onSubmitEntry(data, image);
     navigate('../logbook');
   }
-
-  return (
-    <Form autoComplete="off" aria-labelledby="header" onSubmit={handleSubmit}>
-      <CreateHeader id="header">create new log entry</CreateHeader>
-      <LogInput
-        type="text"
-        labelText="name of the boat"
-        name="boatName"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="names of the crew"
-        inputHint="type in the names separated by a comma"
-        name="crewNames"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="speed of wind"
-        name="windSpeed"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="direction of wind"
-        name="windDirection"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogInput
-        type="text"
-        labelText="height of waves"
-        name="waveHeight"
-        required
-        onChange={handleOnChange}
-      ></LogInput>
-      <LogTextarea
-        type="text"
-        labelText="notes"
-        textareaHint="type information like wind direction, wave size.."
-        name="notes"
-        onChange={handleOnChange}
-      ></LogTextarea>
-      <ImageUpload>
-        <label htmlFor="file">upload a picture of your trip</label>
-        {loading && (
-          <UploadProgress>uploading image...{process}%</UploadProgress>
-        )}
-        {image ? (
-          <Preview>
-            <DeleteButton
-              type="button"
-              variant="deny"
-              onClick={handleRemoveImage}
-              aria-label="Remove this image from the entry"
-            >
-              <IconContext.Provider value={{ stroke: 'white' }}>
-                <GrTrash />
-              </IconContext.Provider>
-            </DeleteButton>
-
-            <img
-              src={image}
-              alt="your sailing trip"
-              style={{
-                width: '90%',
-                margin: '5%',
-              }}
-            />
-          </Preview>
-        ) : (
-          <input
-            type="file"
-            name="file"
-            id="file"
-            aria-label="upload-your-picture"
-            onChange={upload}
-            multiple="multiple"
-          />
-        )}
-      </ImageUpload>
-      <SaveButton type="submit" variant="save">
-        save
-      </SaveButton>
-    </Form>
-  );
 }
 
 const Form = styled.form`
@@ -166,10 +253,62 @@ const Form = styled.form`
   overflow-y: auto;
   overflow-x: hidden;
 `;
-
-const CreateHeader = styled(Header)`
+const FormHeader = styled(Header)`
   width: auto;
-  font-size: 32px;
+  font-size: 30px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  color: #d5e5f2;
+  padding: 10px;
+  margin: 10px;
+  border: #012e40 2px solid;
+  border-radius: 20px;
+`;
+
+const SelectContainer = styled.div`
+  color: #d5e5f2;
+  padding: 10px;
+  margin: 10px;
+  border: #012e40 2px solid;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 2;
+  grid-template-rows: 2;
+  gap: 2px;
+`;
+
+const Select = styled.select`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
+  font-family: Raleway;
+  font-size: 1rem;
+  grid-column: 2/3;
+  grid-row: 2/3;
+  position: relative;
+`;
+const Option = styled.option`
+  position: absolute;
+  top: 100px;
+`;
+
+const SelectInput = styled.input`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
+  grid-column: 1/2;
+`;
+
+const Label = styled.label`
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  margin: 5px;
 `;
 
 const ImageUpload = styled.div`
@@ -186,11 +325,22 @@ const ImageUpload = styled.div`
   }
   input {
     border: #012e40 2px solid;
-    border-radius: 10px;
+    border-radius: 15px;
     width: 100%;
     background-color: #d5e5f2;
     color: #012e40;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    padding: 10px;
+
+    ::-webkit-file-upload-button {
+      font-family: Raleway;
+      margin-right: 10px;
+      border-radius: 10px;
+      background-color: #f2b705;
+      color: #012e40;
+      border: none;
+      box-shadow: 1px 2px 2px black;
+    }
   }
 `;
 
@@ -209,12 +359,33 @@ const Preview = styled.div`
 
 const DeleteButton = styled(Button)`
   position: absolute;
-  right: 5px;
-  box-shadow: 1px 2px 2px black;
+  right: -2px;
+  top: -5px;
+  padding: 10px 10px 7px 10px;
+  border-radius: 10px;
 `;
 
 const SaveButton = styled(Button)`
-  width: 100px;
+  width: fit-content;
   align-self: center;
-  margin: 10px;
+  margin: 15px;
+`;
+
+const InputHint = styled.p`
+  font-size: 0.9rem;
+  margin: 5px;
+`;
+
+const LInput = styled.input`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
+`;
+
+const Textarea = styled.textarea`
+  padding: 10px;
+  background-color: #d5e5f2;
+  border: #012e40 2px solid;
+  border-radius: 15px;
 `;

@@ -13,6 +13,7 @@ const StyledButton = styled.button`
   border-radius: 20px;
   border: none;
   font-size: 1.5rem;
+  box-shadow: 1px 2px 2px black;
 
   ${props =>
     props.variant === 'save' &&
@@ -35,6 +36,7 @@ const StyledButton = styled.button`
       position: absolute;
       padding: 5px;
       right: 10px;
+      box-shadow: none;
       :hover {
         cursor: pointer;
       }
